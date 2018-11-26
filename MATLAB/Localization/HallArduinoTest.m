@@ -40,8 +40,8 @@ while ishandle(plotGraph) %Loop when Plot is Active will run until plot is close
          count = count + 1;    
          time(count) = toc;    
          data(count) = dat(1);         
-         data1(count) = dat1(1)
-         data2(count) = dat2(1)
+         data1(count) = dat1(1);
+         data2(count) = dat2(1);
          %This is the magic code 
          %Using plot will slow down the sampling time.. At times to over 20
          %seconds per sample!
