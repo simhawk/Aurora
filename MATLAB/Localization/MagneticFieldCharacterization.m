@@ -71,6 +71,12 @@ hold on
 %plot(t,R);
 hold off;
 
+t = sqrt(.5^2+t.^2);
+R = x_quar(1)+x_quar(2)*t+x_quar(3)*t.^2+x_quar(4)*t.^3+x_quar(5)*t.^4; 
 
+plot(t,R)
+
+xlabel('Horizontal Distance [inches]') 
+ylabel('Magnetic Field [Gauss]') 
 % guess if lim x-> inf is unknown
 % x = 468.6342    0.5072    0.3151
