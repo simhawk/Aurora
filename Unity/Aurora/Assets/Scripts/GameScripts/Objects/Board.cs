@@ -53,7 +53,15 @@ public class Board : MonoBehaviour
             }
 
             HexKey key = new HexKey(hex.x, hex.y, hex.z);
+            
+            if(hexHashMap.ContainsKey(key)) {
+                Debug.Log("Hex Hash Map already contains key: ("+x + ", " + y + ", " + z + ")");
+                continue;
+            }
+            
+            Debug.Log("Added hex key: ("+x + ", " + y + ", " + z + ") to hex hash map");
             hexHashMap.Add(key, hex);
+
         }
     }
 
