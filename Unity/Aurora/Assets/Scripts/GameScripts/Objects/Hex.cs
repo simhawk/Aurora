@@ -23,7 +23,7 @@ public class Hex : MonoBehaviour
     void Start()
     {
         resource = getRandomResource();
-        redrawResource();
+        InstantiateHexWith(resource);
     }
 
       // Update is called once per frame
@@ -32,17 +32,6 @@ public class Hex : MonoBehaviour
        
     }
 
-    private void redrawResource() {
-        MeshRenderer mesh = gameObject.GetComponent<MeshRenderer>();
-        if(mesh != null && mesh.sharedMaterial != null) 
-        {
-            mesh.sharedMaterial.color = GetResourceColor(resource);
-        } 
-        else
-        {
-            Debug.Log("Error: Could not render hex material mesh color");
-        }
-    }
 
     public static Resource getRandomResource()
     {
@@ -51,18 +40,19 @@ public class Hex : MonoBehaviour
         return randomResource;
     }
 
-    private Color GetResourceColor(Resource resource) {
-        Color color = Color.magenta;
+    private void InstantiateHexWith(Resource resource) {
+        GameObject hex;
         switch(resource)
         {
-            case Resource.Brick: color = new Color(181/255.0f, 53/255.0f, 33/255.0f); break;
-            case Resource.Sheep: color = new Color(153/255f, 1f, 102/255f); break;
-            case Resource.Wheat: color = Color.yellow; break;
-            case Resource.Rock: color = new Color(0.2f,0.2f,0.2f); break;
-            case Resource.Wood: color = new Color(0, 82/255f, 0); break; // brownish
-            case Resource.Desert: color = new Color(237/255.0f, 214/255.0f, 155/255.0f); break; // beigish
+            case Resource.Brick: hex = Instantiate(Resources.Load("Prefabs/BrickHex")) as GameObject; break;
+            case Resource.Sheep: hex = Instantiate(Resources.Load("Prefabs/SheepHex")) as GameObject; break;
+            case Resource.Wheat: hex = Instantiate(Resources.Load("Prefabs/WheatHex")) as GameObject; break;
+            case Resource.Rock: hex = Instantiate(Resources.Load("Prefabs/RockHex")) as GameObject; break;
+            case Resource.Wood: hex = Instantiate(Resources.Load("Prefabs/WoodHex")) as GameObject; break;
+            case Resource.Desert: hex = Instantiate(Resources.Load("Prefabs/DesertHex")) as GameObject; break; 
+            default: hex = Instantiate(Resources.Load("Prefab/WoodHex")) as GameObject; break;  // On Default, use Wood
         }
-        return color;
+        hex.transform.position = this.transform.position;
     }
 
    
