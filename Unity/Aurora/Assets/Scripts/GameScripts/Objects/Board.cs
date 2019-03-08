@@ -1,13 +1,11 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
- [ExecuteInEditMode]
+[ExecuteInEditMode]
 public class Board : MonoBehaviour
-{
-    public enum BoardModeEnum {Normal, SingleLayered}
+{ 
     public BoardModeEnum BoardMode {get; set;}
-    
     public Hex[] hexes;
     
     [SerializeField]
@@ -34,10 +32,18 @@ public class Board : MonoBehaviour
     void OnValidate()
     {
         BoardMode = boardMode;
+
         Hex selectedHex = this.GetHexAt(x, y, z);
-        if(selectedHex != null) {
-            selectedHex.isSelected = !selectedHex.isSelected;
+        if(selectedHex != null)
+        {
+            List<Hex> nearHexes = getAdjacentHexes(selectedHex);
+            foreach(Hex hex in nearHexes)
+            {
+                
+            }
+
         }
+        
     } 
 
 
@@ -76,4 +82,29 @@ public class Board : MonoBehaviour
         return null;
     }
 
+    public static int getDistanceBetweenHexes(Hex a, Hex b)
+    {
+        return System.Math.Max(Math.Max(Math.Abs(a.x - b.x), Math.Abs(a.y - b.y)), Math.Abs(a.z - b.z));
+    }
+
+    public bool areHexesAdjacent(Hex a, Hex b) 
+    {
+        return getDistanceBetweenHexes(a, b) == 1;
+    }
+
+    public List<Hex> getAdjacentHexes(Hex hex) 
+    {
+        List<int> cubicDeltas = new List<int>(new int[]{1, -1, 0});
+        List<Hex> adjacentHexes = new List<Hex>();
+
+        var permutations = cubicDeltas.Permutations();
+
+        foreach (var list in permutations)
+        {
+            List<int> indices = list.ToList();
+            Hex adjacentHex = GetHexAt(hex.x + indices[0], hex.y + indices[1], hex.z + indices[2]);
+            adjacentHexes.AddIfNotNull(adjacentHex);
+        }
+        return adjacentHexes;
+    }
 }

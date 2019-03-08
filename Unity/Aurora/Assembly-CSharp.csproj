@@ -54,9 +54,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameScripts\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\Enums\BoardModeEnum.cs" />
+     <Compile Include="Assets\Scripts\GameScripts\Enums\PieceSetupEnum.cs" />
      <Compile Include="Assets\Scripts\GameScripts\Objects\Board.cs" />
      <Compile Include="Assets\Scripts\GameScripts\Objects\Hex.cs" />
      <Compile Include="Assets\Scripts\GameScripts\StateManager.cs" />
+     <Compile Include="Assets\Scripts\Util\Extensions.cs" />
      <Compile Include="Assets\Scripts\Util\HexKey.cs" />
      <None Include="Assets\PolygonMini_Fantasy\Shaders\DistanceGradient.shader" />
      <None Include="Assets\PolygonMini_Fantasy\Shaders\WorldFog.shader" />

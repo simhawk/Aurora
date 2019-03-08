@@ -6,17 +6,19 @@ public class StateManager : MonoBehaviour
 {
 
     public StateManager Instance { get; private set;}
+    public PieceSetupEnum pieceSetup;
 
-   void Awake()
-   {
-       if(Instance == null) 
-       {
+    void Awake()
+    {
+        if(Instance == null) 
+        {
            Instance = this;
            DontDestroyOnLoad(gameObject);
-       } 
-       else 
-       {
+        } 
+        else 
+        {
            Destroy(gameObject);
-       }
-   }
+        }
+    }
+
 }
