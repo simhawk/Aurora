@@ -26,6 +26,9 @@ public class StateManager : MonoBehaviour
     *******************/
 
 
-
+    /*******************
+       Game Properties
+    *******************/
+    
 
 }
