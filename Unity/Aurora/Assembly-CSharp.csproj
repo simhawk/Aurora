@@ -53,7 +53,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BzKovSoft\CharacterSlicerSamples\CharacterSlicerSampleFast.cs" />
+     <Compile Include="Assets\BzKovSoft\CharacterSlicerSamples\EnemyManager.cs" />
+     <Compile Include="Assets\BzKovSoft\CharacterSlicerSamples\IDeadable.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\AdderSliceableAsync.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\BzKnife.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\KnifeSliceableAsync.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\MoveCamera.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\ObjectSlicerSample.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\SampleKnifeSlicer.cs" />
+     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\SampleMouseSlicer.cs" />
      <Compile Include="Assets\FacePaint-master\FacePaint-master\Scripts\FacePaintData.cs" />
+     <Compile Include="Assets\MeshEditor\Scripts\GameObjectDeformer.cs" />
+     <Compile Include="Assets\MeshEditor\Scripts\GameObjectDeformerEditor.cs" />
+     <Compile Include="Assets\MeshEditor\Scripts\GizmoScript.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_BrushMirror.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_ComponentIndex.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_Culling.cs" />
@@ -82,14 +95,20 @@
      <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_MeshUtility.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Util.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Vector.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\CameraMovement.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\Enums\BoardModeEnum.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\Enums\PieceSetupEnum.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\NumberHolder.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\Objects\Board.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\Objects\Hex.cs" />
-     <Compile Include="Assets\Scripts\GameScripts\StateManager.cs" />
+     <Compile Include="Assets\Scripts\Animations\rotate.cs" />
+     <Compile Include="Assets\Scripts\Animations\updown.cs" />
+     <Compile Include="Assets\Scripts\Control\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\Enums\BoardMode.cs" />
+     <Compile Include="Assets\Scripts\Enums\PieceSetup.cs" />
+     <Compile Include="Assets\Scripts\Enums\PlayerType.cs" />
+     <Compile Include="Assets\Scripts\Enums\Resource.cs" />
+     <Compile Include="Assets\Scripts\Objects\Board.cs" />
+     <Compile Include="Assets\Scripts\Objects\Hex.cs" />
+     <Compile Include="Assets\Scripts\Objects\NumberHolder.cs" />
+     <Compile Include="Assets\Scripts\Objects\Settlement.cs" />
+     <Compile Include="Assets\Scripts\StateMachine\StateManager.cs" />
      <Compile Include="Assets\Scripts\Util\Extensions.cs" />
+     <Compile Include="Assets\Scripts\Util\GoInvisible.cs" />
      <Compile Include="Assets\Scripts\Util\HexKey.cs" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlend_SfSrc.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendMobile.shader" />
@@ -106,10 +125,12 @@
      <None Include="Assets\PolygonMini_Fantasy\Shaders\WorldGradient.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_BaseWithDecals.shader" />
      <None Include="Assets\ProCore\Polybrush\ThirdPartyLicenses.txt" />
+     <None Include="Assets\MeshEditor\LowPolyWeapon\Sprite Source.txt" />
      <None Include="Assets\PolygonMini_Fantasy\Shaders\LocalFog_Overlay.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendMobile_SfSrc.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlendLegacy.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendModulate.shader" />
+     <None Include="Assets\read me.txt" />
      <None Include="Assets\FacePaint-master\FacePaint-master\FacePaintLutDebug.shader" />
      <None Include="Assets\PolygonMini_Fantasy\Shaders\LocalFog_Add.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_VertexBillboard.shader" />
@@ -122,12 +143,15 @@
      <None Include="Assets\ProCore\Polybrush\Shader\z_StandardVertexColor.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\Noise.cginc" />
      <None Include="Assets\ProCore\Polybrush\Font\SIL Open Font License.txt" />
+     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
+     <None Include="Assets\MeshEditor\LowPolyWeapon\Shaders\AlphaTest-DiffuseDoublesided.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_DiffuseVertexColor.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlender_SfSrc.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendBmp_SfSrc.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlend.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendWithVertexColor_SfSrc.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_Overlay.shader" />
+     <None Include="Assets\MeshEditor\LowPolyWeapon\Shaders\AlphaTest-DiffuseBack.shader" />
      <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendModulate_SfSrc.shader" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Isaiah/Documents/Aurora/Unity/Aurora/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -344,6 +368,9 @@
  </Reference>
  <Reference Include="UnityEngine.SpatialTracking">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+ </Reference>
+ <Reference Include="ObjectSlicer">
+ <HintPath>C:/Users/Isaiah/Documents/Aurora/Unity/Aurora/Assets/BzKovSoft/Plugins/ObjectSlicer.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Users/Isaiah/Documents/Aurora/Unity/Aurora/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
