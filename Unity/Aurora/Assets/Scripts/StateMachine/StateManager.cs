@@ -6,7 +6,7 @@ public class StateManager : MonoBehaviour
 {
 
     public StateManager Instance { get; private set;}
-    public PieceSetup pieceSetup;
+    
 
     void Awake()
     {
@@ -20,5 +20,12 @@ public class StateManager : MonoBehaviour
            Destroy(gameObject);
         }
     }
+
+    /*******************
+       Game Properties
+    *******************/
+
+
+
 
 }

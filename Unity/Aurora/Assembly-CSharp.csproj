@@ -99,8 +99,8 @@
      <Compile Include="Assets\Scripts\Animations\updown.cs" />
      <Compile Include="Assets\Scripts\Control\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\Enums\BoardMode.cs" />
+     <Compile Include="Assets\Scripts\Enums\CivType.cs" />
      <Compile Include="Assets\Scripts\Enums\PieceSetup.cs" />
-     <Compile Include="Assets\Scripts\Enums\PlayerType.cs" />
      <Compile Include="Assets\Scripts\Enums\Resource.cs" />
      <Compile Include="Assets\Scripts\Objects\Board.cs" />
      <Compile Include="Assets\Scripts\Objects\Hex.cs" />

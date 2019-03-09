@@ -6,12 +6,23 @@ public class Settlement : MonoBehaviour
 {
 
     private static System.Random random = new System.Random();
+    private CivType civType;
+    public bool isUpgraded; // to a city
 
+    GameObject settlement;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        civType = GetRandomCivType();
+        isUpgraded = true;
+        ReplaceSettlement();
+    }
+
+
+    void OnValidate()
+    {
+       // ReplaceSettlement();
     }
 
     // Update is called once per frame
@@ -20,26 +31,46 @@ public class Settlement : MonoBehaviour
         
     }
 
-    public static Resource getRandomResource()
+    public static CivType GetRandomCivType()
     {
-        System.Array resources = Resource.GetValues(typeof(Resource));
-        Resource randomResource = (Resource)resources.GetValue(random.Next(0,resources.Length-1));
-        return randomResource;
+        System.Array civilizations = CivType.GetValues(typeof(CivType));
+        CivType randomCiv = (CivType)civilizations.GetValue(random.Next(0,civilizations.Length));
+        return randomCiv;
     }
 
-     private void InstantiateSettlementWith(Resource resource) {
-        GameObject hex;
-        switch(resource)
+     private void ReplaceSettlement() {
+        // destroy any existing settlement
+        Destroy(settlement);
+        settlement = null;
+
+        if(this.isUpgraded)
         {
-            case Resource.Brick: hex = Instantiate(Resources.Load("Prefabs/BrickHex")) as GameObject; break;
-            case Resource.Sheep: hex = Instantiate(Resources.Load("Prefabs/SheepHex")) as GameObject; break;
-            case Resource.Wheat: hex = Instantiate(Resources.Load("Prefabs/WheatHex")) as GameObject; break;
-            case Resource.Rock: hex = Instantiate(Resources.Load("Prefabs/RockHex")) as GameObject; break;
-            case Resource.Wood: hex = Instantiate(Resources.Load("Prefabs/WoodHex")) as GameObject; break;
-            case Resource.Desert: hex = Instantiate(Resources.Load("Prefabs/DesertHex")) as GameObject; break; 
-            case Resource.Water: hex = Instantiate(Resources.Load("Prefabs/WaterHex")) as GameObject; break; 
-            default: hex = Instantiate(Resources.Load("Prefab/WoodHex")) as GameObject; break;  // On Default, use Wood
+            switch(this.civType)
+            {
+                case CivType.Fisherman: settlement = Instantiate(Resources.Load("Prefabs/City_Fisherman")) as GameObject; break;
+                case CivType.Knight: settlement = Instantiate(Resources.Load("Prefabs/City_Knight")) as GameObject; break;
+                case CivType.Noble: settlement = Instantiate(Resources.Load("Prefabs/City_Noble")) as GameObject; break;
+                case CivType.Samurai: settlement = Instantiate(Resources.Load("Prefabs/City_Samurai")) as GameObject; break;
+                case CivType.Viking: settlement = Instantiate(Resources.Load("Prefabs/City_Viking")) as GameObject; break;
+                
+                default: settlement = Instantiate(Resources.Load("Prefab/City_Viking")) as GameObject; break;  
+            }
         }
-        hex.transform.position = this.transform.position;
+        else 
+        {
+            switch(this.civType)
+            {
+                case CivType.Fisherman: settlement = Instantiate(Resources.Load("Prefabs/Settlement_Fisherman")) as GameObject; break;
+                case CivType.Knight: settlement = Instantiate(Resources.Load("Prefabs/Settlement_Knight")) as GameObject; break;
+                case CivType.Noble: settlement = Instantiate(Resources.Load("Prefabs/Settlement_Noble")) as GameObject; break;
+                case CivType.Samurai: settlement = Instantiate(Resources.Load("Prefabs/Settlement_Samurai")) as GameObject; break;
+                case CivType.Viking: settlement = Instantiate(Resources.Load("Prefabs/Settlement_Viking")) as GameObject; break;
+                
+                default: settlement = Instantiate(Resources.Load("Prefab/Settlement_Viking")) as GameObject; break;  
+            }
+        }
+       
+        settlement.transform.position = this.transform.position;
+        settlement.transform.rotation = this.transform.rotation;
     }
 }
