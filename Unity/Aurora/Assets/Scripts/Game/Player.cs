@@ -6,5 +6,5 @@ public class Player : MonoBehaviour
 {
         public float orientation;
         public CivType civType;
-        public string name;
+        public string DisplayName;
 }

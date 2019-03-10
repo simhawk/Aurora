@@ -31,16 +31,13 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
     public Player activePlayer;
     public Player[] players;
+    public Plane boardPlane;
 
     /******************************
        Static Game Properties
     *******************************/
     public const int VictoryPointsToWin = 10;
-
-    public const int NumberOfPlayers = 4; // Player orientations {P1: Left, P2: Front, P3: Right}
-    public List<float> orientations = new List<float>{-90, 0, 90};
-    public List<int> PlayerOrder = new List<int>{1, 2, 3};
-    public List<CivType> PlayerCivs = new List<CivType>{CivType.Viking, CivType.Fisherman, CivType.Noble, CivType.Samurai};
+    
 
    // This game is different from Catan, and since it's board is flattened, a desert would be devastating to be near, as such the desert has been removed
    // Since this is the case, a board with 18 hexes (1 less than the normal 19 hex board) still has the same roll numbers.
@@ -59,6 +56,8 @@ public class GameManager : MonoBehaviour
        Instance Game Properties
     *******************************/
     public BoardMode boardMode = BoardMode.RandomPooled;
+    
+
     public /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
@@ -66,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         if(Time.time > 10)
         {
+           Debug.Log(boardPlane.ToString());
            activePlayer = players[1];
         }
     }

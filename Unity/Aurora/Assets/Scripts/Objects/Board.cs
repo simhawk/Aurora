@@ -141,10 +141,14 @@ public class Board : MonoBehaviour
         //     // transform.position = position;
         // }
 
-        Debug.Log(Input.GetMouseButton(0) ? "0mouse button down" : "0mouse button up");
-        Debug.Log(Input.GetMouseButton(1) ? "1mouse button down" : "1mouse button up");
-        Debug.Log(Input.GetMouseButton(2) ? "2mouse button down" : "2mouse button up");
-        
-        Debug.Log(Input.GetMouseButton(3) ? "3mouse button down" : "3mouse button up");
+        //Input.getmouseBuytton() 0left, 1right, 2wheel)
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            
+            //Create a ray from the Mouse click position
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        }
     }
+
 }
