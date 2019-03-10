@@ -7,39 +7,35 @@ public class Settlement : MonoBehaviour
 
     private static System.Random random = new System.Random();
     private CivType civType;
-    public bool isUpgraded; // to a city
+    private bool isUpgraded; 
 
-    GameObject settlement;
+    GameObject settlement; // This object holds the mesh for displaying the settlement game piece
 
     // Start is called before the first frame update
     void Start()
     {
-        civType = GetRandomCivType();
-        isUpgraded = true;
+        civType = CivType.Noble;
+        isUpgraded = false;
+    }
+
+    public void placeSettlementWithActiveCiv(bool isUpgraded)
+    {
+        this.isUpgraded = isUpgraded;
+        civType = GameManager.Instance.activePlayer.civType;
         ReplaceSettlement();
     }
 
-
-    void OnValidate()
+    public void placeSettlementWithRandomCiv(bool isUpgraded)
     {
-       // ReplaceSettlement();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public static CivType GetRandomCivType()
-    {
+        this.isUpgraded = isUpgraded;
         System.Array civilizations = CivType.GetValues(typeof(CivType));
         CivType randomCiv = (CivType)civilizations.GetValue(random.Next(0,civilizations.Length));
-        return randomCiv;
+        this.civType = randomCiv;
+        ReplaceSettlement();
     }
 
      private void ReplaceSettlement() {
-        // destroy any existing settlement
+        // destroy any existing mesh that is there (if upgrading for instance)
         Destroy(settlement);
         settlement = null;
 
@@ -73,4 +69,5 @@ public class Settlement : MonoBehaviour
         settlement.transform.position = this.transform.position;
         settlement.transform.rotation = this.transform.rotation;
     }
+
 }

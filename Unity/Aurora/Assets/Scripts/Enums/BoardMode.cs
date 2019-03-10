@@ -1,5 +1,5 @@
 public enum BoardMode 
 {
-    Normal, 
-    SingleLayered,
+    Random, 
+    RandomPooled,
 }

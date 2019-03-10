@@ -102,11 +102,14 @@
      <Compile Include="Assets\Scripts\Enums\CivType.cs" />
      <Compile Include="Assets\Scripts\Enums\PieceSetup.cs" />
      <Compile Include="Assets\Scripts\Enums\Resource.cs" />
+     <Compile Include="Assets\Scripts\Game\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Game\GameState.cs" />
+     <Compile Include="Assets\Scripts\Game\Player.cs" />
      <Compile Include="Assets\Scripts\Objects\Board.cs" />
      <Compile Include="Assets\Scripts\Objects\Hex.cs" />
      <Compile Include="Assets\Scripts\Objects\NumberHolder.cs" />
      <Compile Include="Assets\Scripts\Objects\Settlement.cs" />
-     <Compile Include="Assets\Scripts\StateMachine\StateManager.cs" />
+     <Compile Include="Assets\Scripts\UI\HelpingText.cs" />
      <Compile Include="Assets\Scripts\Util\Extensions.cs" />
      <Compile Include="Assets\Scripts\Util\GoInvisible.cs" />
      <Compile Include="Assets\Scripts\Util\HexKey.cs" />

@@ -8,7 +8,7 @@ public class NumberHolder : MonoBehaviour
     public Color ScarceColor;
     public Color CommonColor;
 
-    public int number;
+    public int rollNumber;
     private static System.Random random = new System.Random();  
     
     /// <summary>
@@ -16,6 +16,11 @@ public class NumberHolder : MonoBehaviour
     /// inspector (Called in the editor only).
     /// </summary>
     void OnValidate()
+    {
+        setupText();
+    }
+
+    private void setupText()
     {
         // Get Resource Number child object
         TextMesh ResourceNumberTextMesh = gameObject.transform.GetChild(0).GetComponent<TextMesh>();
@@ -25,30 +30,30 @@ public class NumberHolder : MonoBehaviour
         Color textColor = ScarceColor;
         
 
-        if(number == 2 || number == 12)
+        if(rollNumber == 2 || rollNumber == 12)
         {
             dotText = ".";
         }
-        else if(number == 3 || number == 11)
+        else if(rollNumber == 3 || rollNumber == 11)
         {
             dotText = "..";
         }
-        else if(number == 4 || number == 10)
+        else if(rollNumber == 4 || rollNumber == 10)
         {
             dotText = "...";
         }
-        else if(number == 5 || number == 9)
+        else if(rollNumber == 5 || rollNumber == 9)
         {
             dotText = "....";
         }
-        else if(number == 6 || number == 7 || number == 8)
+        else if(rollNumber == 6 || rollNumber == 8)
         {
             dotText = ".....";
             textColor = CommonColor;
         }
 
         if(ResourceNumberTextMesh != null) {
-            ResourceNumberTextMesh.text = number.ToString();
+            ResourceNumberTextMesh.text = rollNumber.ToString();
             ResourceNumberTextMesh.color = textColor;
         }
 
@@ -58,50 +63,40 @@ public class NumberHolder : MonoBehaviour
         }
     }
 
+    private static int getRandomRollNumber()
+    {
+        int randomNumber = random.Next(2,11);
+        if(randomNumber >= 7) 
+            randomNumber++;
+        return randomNumber;
+    }
+
+    private static int getRandomPooledNumber()
+    {
+        List<int> rollNumbers = GameManager.Instance.startingNumbers;
+        int randomListIndex = random.Next(0,rollNumbers.Count);
+        int randomNumberFromList = rollNumbers[randomListIndex];
+        rollNumbers.RemoveAt(randomListIndex);
+        return randomNumberFromList;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        number = random.Next(2,12);
-
-         // Get Resource Number child object
-        TextMesh ResourceNumberTextMesh = gameObject.transform.GetChild(0).GetComponent<TextMesh>();
-        TextMesh DotTextMesh = gameObject.transform.GetChild(1).GetComponent<TextMesh>();
-
-        string dotText = ".";
-        Color textColor = ScarceColor;
-        
-
-        if(number == 2 || number == 12)
+        BoardMode boardMode = GameManager.Instance.boardMode;
+        switch(boardMode)
         {
-            dotText = ".";
+            case BoardMode.Random:
+                this.rollNumber = getRandomRollNumber();
+            break;
+            case BoardMode.RandomPooled:
+                this.rollNumber = getRandomPooledNumber();
+            break;
+            default: 
+                this.rollNumber = getRandomPooledNumber();
+            break;
         }
-        else if(number == 3 || number == 11)
-        {
-            dotText = "..";
-        }
-        else if(number == 4 || number == 10)
-        {
-            dotText = "...";
-        }
-        else if(number == 5 || number == 9)
-        {
-            dotText = "....";
-        }
-        else if(number == 6 || number == 7 || number == 8)
-        {
-            dotText = ".....";
-            textColor = CommonColor;
-        }
-
-        if(ResourceNumberTextMesh != null) {
-            ResourceNumberTextMesh.text = number.ToString();
-            ResourceNumberTextMesh.color = textColor;
-        }
-
-        if(DotTextMesh != null) {
-            DotTextMesh.text = dotText;
-            DotTextMesh.color = textColor;
-        }
+        setupText();
     }
 
     // Update is called once per frame

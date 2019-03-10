@@ -6,10 +6,10 @@ using UnityEngine;
 public class Board : MonoBehaviour
 { 
     public BoardMode BoardMode {get; set;}
+    public BoardMode boardMode;
     public Hex[] hexes;
     
     [SerializeField]
-    private BoardMode boardMode;
     private Dictionary<HexKey, Hex> hexHashMap = new Dictionary<HexKey, Hex>();
 
     public int x, y, z;
@@ -19,7 +19,7 @@ public class Board : MonoBehaviour
         // This will be used during normal play
         if(!Application.isEditor) 
         {
-            BoardMode = BoardMode.Normal;
+           // BoardMode = BoardMode.Normal;
         }
 
         InitializeHexes();
@@ -46,7 +46,7 @@ public class Board : MonoBehaviour
         
     } 
 
-
+    // Creates a hashmap for all the hexes to be accessed via this.GetHexAt()
     private void InitializeHexes() 
     {
         for(int i = 0; i < hexes.Length; i++)
@@ -58,13 +58,13 @@ public class Board : MonoBehaviour
                 continue;
             }
 
+
+
             HexKey key = new HexKey(hex.x, hex.y, hex.z);
-            
             if(hexHashMap.ContainsKey(key)) {
                 Debug.Log("Hex Hash Map already contains key: ("+x + ", " + y + ", " + z + ")");
                 continue;
             }
-            
             Debug.Log("Added hex key: ("+x + ", " + y + ", " + z + ") to hex hash map");
             hexHashMap.Add(key, hex);
 
@@ -106,5 +106,45 @@ public class Board : MonoBehaviour
             adjacentHexes.AddIfNotNull(adjacentHex);
         }
         return adjacentHexes;
+    }
+
+    private Vector3 position;
+    private float width;
+    private float height;
+
+    void Awake()
+    {
+        width = (float)Screen.width / 2.0f;
+        height = (float)Screen.height / 2.0f;
+
+        // Position used for the cube.
+        position = new Vector3(0.0f, 0.0f, 0.0f);
+    }
+
+
+    void Update()
+    {
+
+        // //Update touch
+        // Touch touch = Input.GetTouch(0);
+
+        // // Move the cube if the screen has the finger moving.
+        // if (touch.phase == TouchPhase.Moved)
+        // {
+        //     Vector2 pos = touch.position;
+        //     pos.x = (pos.x - width) / width;
+        //     pos.y = (pos.y - height) / height;
+        //     position = new Vector3(-pos.x, pos.y, 0.0f);
+
+        //     Debug.Log("x: " + pos.x);
+        //     // Position the cube.
+        //     // transform.position = position;
+        // }
+
+        Debug.Log(Input.GetMouseButton(0) ? "0mouse button down" : "0mouse button up");
+        Debug.Log(Input.GetMouseButton(1) ? "1mouse button down" : "1mouse button up");
+        Debug.Log(Input.GetMouseButton(2) ? "2mouse button down" : "2mouse button up");
+        
+        Debug.Log(Input.GetMouseButton(3) ? "3mouse button down" : "3mouse button up");
     }
 }

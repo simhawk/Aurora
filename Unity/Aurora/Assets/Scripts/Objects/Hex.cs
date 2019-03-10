@@ -7,7 +7,6 @@ using UnityEngine;
 public class Hex : MonoBehaviour
 {
     public bool isSelected = false;
-
     public Resource resource;
     private static System.Random random = new System.Random();
 
@@ -20,25 +19,37 @@ public class Hex : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(resource != Resource.Water)
+        BoardMode boardMode = GameManager.Instance.boardMode;
+        Resource resource;
+        switch(boardMode)
         {
-            resource = getRandomResource();
+            case BoardMode.Random:
+                resource = getRandomResource();
+            break;
+            case BoardMode.RandomPooled:
+                resource = getRandomPooledResource();
+            break;
+            default: 
+                resource = getRandomPooledResource();
+            break;
         }
         InstantiateHexWith(resource);
     }
 
-      // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
-
-    public static Resource getRandomResource()
+    private static Resource getRandomResource()
     {
         System.Array resources = Resource.GetValues(typeof(Resource));
         Resource randomResource = (Resource)resources.GetValue(random.Next(0,resources.Length-1));
         return randomResource;
+    }
+
+    private static Resource getRandomPooledResource()
+    {
+        List<Resource> resourceList = GameManager.Instance.startingResources;
+        int randomListIndex = random.Next(0,resourceList.Count);
+        Resource randomResourceFromList = resourceList[randomListIndex];
+        resourceList.RemoveAt(randomListIndex);
+        return randomResourceFromList;
     }
 
     private void InstantiateHexWith(Resource resource) {
@@ -56,6 +67,4 @@ public class Hex : MonoBehaviour
         }
         hex.transform.position = this.transform.position;
     }
-
-   
 }
