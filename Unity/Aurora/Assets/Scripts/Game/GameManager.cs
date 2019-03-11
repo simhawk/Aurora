@@ -80,8 +80,7 @@ public class GameManager : MonoBehaviour
       Vector3 mousePoint = getMousePointOnPlane();
 
       // StateMachine
-      switch(gameState) 
-      {
+      switch(gameState) { 
       case GameState.InitialSettlementPlacement:
       {
          if(Input.GetMouseButtonUp(0))
@@ -181,11 +180,24 @@ public class GameManager : MonoBehaviour
           printResourcesForPlayer(3);
 
          //TODO: change this to the correct state(trading)
-         gameState = GameState.PlaceThief;
+         gameState = GameState.Trading;
+         break;
       }
 
+      case GameState.Trading:
+      {
+         // TODO: do stuff for trading
+         gameState = GameState.BuildOrDevelopmentCard;
+         break;
+      }
+
+      case GameState.BuildOrDevelopmentCard:
+      {
+         // TODO: do stuff for Build or Development
+         break;
+      }
          
-      break;
+      
 
       case GameState.PlaceThief:
       {
