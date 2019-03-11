@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{EC9E7543-C79A-00E2-DDD1-9CCC66D7E53B}</ProjectGuid>
+    <ProjectGuid>{DBCA3DEF-C4D3-390B-0FA9-67FCF9378CBA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -53,117 +53,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BzKovSoft\CharacterSlicerSamples\CharacterSlicerSampleFast.cs" />
-     <Compile Include="Assets\BzKovSoft\CharacterSlicerSamples\EnemyManager.cs" />
-     <Compile Include="Assets\BzKovSoft\CharacterSlicerSamples\IDeadable.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\AdderSliceableAsync.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\BzKnife.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\KnifeSliceableAsync.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\MoveCamera.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\ObjectSlicerSample.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\SampleKnifeSlicer.cs" />
-     <Compile Include="Assets\BzKovSoft\ObjectSlicerSamples\SampleMouseSlicer.cs" />
-     <Compile Include="Assets\FacePaint-master\FacePaint-master\Scripts\FacePaintData.cs" />
-     <Compile Include="Assets\MeshEditor\Scripts\GameObjectDeformer.cs" />
-     <Compile Include="Assets\MeshEditor\Scripts\GameObjectDeformerEditor.cs" />
-     <Compile Include="Assets\MeshEditor\Scripts\GizmoScript.cs" />
-     <Compile Include="Assets\Pixelplacement\iTweenPath\iTweenPath.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_BrushMirror.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_ComponentIndex.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_Culling.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_Direction.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_MeshChannel.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_MirrorCoordinateSpace.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_ModelSource.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_PaintMode.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_PlacementDirection.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Enum\z_SelectionRenderState.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\MonoBehaviour\z_AdditionalVertexStreams.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\MonoBehaviour\z_OverlayRenderer.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\MonoBehaviour\z_ZoomOverride.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_AttributeLayout.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_ColorMask.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_CommonEdge.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_Edge.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_GradientSerializer.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_IHasDefault.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_IValid.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_Mesh.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_RndVec3.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_SplatSet.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Type\z_SplatWeight.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Math.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_MeshUtility.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Util.cs" />
-     <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Vector.cs" />
-     <Compile Include="Assets\Pulsing.cs" />
-     <Compile Include="Assets\Scripts\Animations\MoveAroundPoint.cs" />
-     <Compile Include="Assets\Scripts\Animations\rotate.cs" />
-     <Compile Include="Assets\Scripts\Animations\updown.cs" />
-     <Compile Include="Assets\Scripts\Control\CameraMovement.cs" />
-     <Compile Include="Assets\Scripts\Enums\BoardMode.cs" />
-     <Compile Include="Assets\Scripts\Enums\CivType.cs" />
-     <Compile Include="Assets\Scripts\Enums\PieceSetup.cs" />
-     <Compile Include="Assets\Scripts\Enums\Resource.cs" />
-     <Compile Include="Assets\Scripts\Game\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Game\GameState.cs" />
-     <Compile Include="Assets\Scripts\Game\Player.cs" />
-     <Compile Include="Assets\Scripts\Objects\Board.cs" />
-     <Compile Include="Assets\Scripts\Objects\Dice.cs" />
-     <Compile Include="Assets\Scripts\Objects\Hex.cs" />
-     <Compile Include="Assets\Scripts\Objects\NumberHolder.cs" />
-     <Compile Include="Assets\Scripts\Objects\Road.cs" />
-     <Compile Include="Assets\Scripts\Objects\Settlement.cs" />
-     <Compile Include="Assets\Scripts\UI\HelpingText.cs" />
-     <Compile Include="Assets\Scripts\UI\UserInterface.cs" />
-     <Compile Include="Assets\Scripts\Util\Extensions.cs" />
-     <Compile Include="Assets\Scripts\Util\GoInvisible.cs" />
-     <Compile Include="Assets\Scripts\Util\HexKey.cs" />
-     <Compile Include="Assets\Scripts\Util\RotateToBoardTransform.cs" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlend_SfSrc.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendMobile.shader" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\DistanceGradient.shader" />
-     <None Include="Assets\ProCore\Polybrush\README.txt" />
-     <None Include="Assets\Resources\MyShader.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlendLegacy_SfSrc.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendHeight.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendWithVertexColor.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendHeight_SfSrc.shader" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\WorldFog.shader" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\LocalFog_Multiply.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\Example\z_UnlitTextureBlend.shader" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\WorldGradient.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_BaseWithDecals.shader" />
-     <None Include="Assets\ProCore\Polybrush\ThirdPartyLicenses.txt" />
-     <None Include="Assets\MeshEditor\LowPolyWeapon\Sprite Source.txt" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\LocalFog_Overlay.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendMobile_SfSrc.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlendLegacy.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendModulate.shader" />
-     <None Include="Assets\read me.txt" />
-     <None Include="Assets\FacePaint-master\FacePaint-master\FacePaintLutDebug.shader" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\LocalFog_Add.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_VertexBillboard.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlender.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendBmp.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\Example\z_UnlitTextureBlend_WithMetaData.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\Example\z_UnlitTextureBlendAndSnow.shader" />
-     <None Include="Assets\FacePaint-master\FacePaint-master\FacePaintDebug.shader" />
-     <None Include="Assets\PolygonMini_Fantasy\Shaders\LocalGradient.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_StandardVertexColor.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\Noise.cginc" />
-     <None Include="Assets\ProCore\Polybrush\Font\SIL Open Font License.txt" />
-     <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
-     <None Include="Assets\MeshEditor\LowPolyWeapon\Shaders\AlphaTest-DiffuseDoublesided.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_DiffuseVertexColor.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlender_SfSrc.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendBmp_SfSrc.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TriPlanarBlend.shader" />
-     <None Include="Assets\Resources\Materials\TextShader.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendWithVertexColor_SfSrc.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_Overlay.shader" />
-     <None Include="Assets\MeshEditor\LowPolyWeapon\Shaders\AlphaTest-DiffuseBack.shader" />
-     <None Include="Assets\ProCore\Polybrush\Shader\z_TextureBlendModulate_SfSrc.shader" />
+     <Compile Include="Assets\Plugins\Pixelplacement\iTween\iTween.cs" />
+     <Compile Include="Assets\Plugins\Pixelplacement\iTween\Sample\MoveSample.cs" />
+     <Compile Include="Assets\Plugins\Pixelplacement\iTween\Sample\RotateSample.cs" />
+     <Compile Include="Assets\Plugins\Pixelplacement\iTween\Sample\SampleInfo.cs" />
+     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Isaiah/Documents/Aurora/Unity/Aurora/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -743,10 +637,6 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>D:/Unity/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{DBCA3DEF-C4D3-390B-0FA9-67FCF9378CBA}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

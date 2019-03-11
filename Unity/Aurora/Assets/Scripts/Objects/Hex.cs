@@ -10,6 +10,9 @@ public class Hex : MonoBehaviour
     public Resource resource;
     private static System.Random random = new System.Random();
     private NumberHolder numberHolder;
+    public bool selected = false;
+
+    public bool isThiefOnHex = false;
 
 
     [SerializeField]
@@ -36,6 +39,27 @@ public class Hex : MonoBehaviour
             break;
         }
         InstantiateHexWith(resource);
+    }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        
+        MeshRenderer[] meshRenderers = transform.GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer mesh in meshRenderers) 
+        {
+            if(mesh.transform.tag.Equals("Selector"))
+            {
+                mesh.enabled = isSelected;
+            }
+            if(mesh.transform.tag.Equals("Thief"))
+            {
+                mesh.enabled = isThiefOnHex;
+            }
+        }
+
     }
     
     public int getNumber()

@@ -63,6 +63,7 @@
      <Compile Include="Assets\FacePaint-master\FacePaint-master\Editor\Modules\FacePaint_LUT.cs" />
      <Compile Include="Assets\FacePaint-master\FacePaint-master\Editor\Modules\FacePaint_LUT_Settings.cs" />
      <Compile Include="Assets\FacePaint-master\FacePaint-master\Editor\Modules\FacePaint_Randomiser.cs" />
+     <Compile Include="Assets\Pixelplacement\iTweenPath\Editor\iTweenPathEditor.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Editor\Brush Modes\z_BrushMode.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Editor\Brush Modes\z_BrushModeMesh.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Editor\Brush Modes\z_BrushModePaint.cs" />
@@ -736,6 +737,8 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{DBCA3DEF-C4D3-390B-0FA9-67FCF9378CBA}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{EC9E7543-C79A-00E2-DDD1-9CCC66D7E53B}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>

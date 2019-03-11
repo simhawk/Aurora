@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
     public Player[] players;
     public Plane boardPlane;
     public float objectDistanceThreshold;
-
+    public Hex selectedHex;
+    
     public Tuple<int, int, int> rollResults; 
 
     private bool selectingBackward;
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
       switch(gameState) 
       {
       case GameState.InitialSettlementPlacement:
+      {
          if(Input.GetMouseButtonUp(0))
          {
             Settlement closestSettlement = findClosestSettlementTo(mousePoint, objectDistanceThreshold);
@@ -91,9 +93,11 @@ public class GameManager : MonoBehaviour
                this.gameState = GameState.InitialRoadPlacement;
             }
          }
-      break;
+         break;
+      }
 
       case GameState.InitialRoadPlacement:
+      {
          if(Input.GetMouseButtonUp(0))
          {
             Road closestRoad = findClosestRoadTo(mousePoint, objectDistanceThreshold);
@@ -130,18 +134,29 @@ public class GameManager : MonoBehaviour
                }
             }
          }
-      break;
-
+         break;
+      }
+      
       case GameState.ResourceRoll:
+      {
          // Wait for the player to click on the dice roll! don't really have to 
          // do too much here unless you want cool animations as soon as they roll the dice
-      break;
+         break;
+      }
+         
 
       case GameState.ResourceRollDone:
+      {
+         if(this.rollResults.Item1 == 7)
+         {
+            gameState = GameState.PlaceThief;
+         }
+
          Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
          foreach(Hex hex in hexes)
          {
-            if(hex.getNumber() != rollResults.Item1 ) {
+            // skip if the roll number doesn't match up or if the thief is on the hex
+            if(hex.getNumber() != rollResults.Item1 || hex.isThiefOnHex) {
                continue;
             }
 
@@ -165,8 +180,41 @@ public class GameManager : MonoBehaviour
           printResourcesForPlayer(2);
           printResourcesForPlayer(3);
 
-         gameState = GameState.MainMenu;
+         //TODO: change this to the correct state(trading)
+         gameState = GameState.PlaceThief;
+      }
+
+         
       break;
+
+      case GameState.PlaceThief:
+      {
+         if(Input.GetMouseButtonUp(0))
+         {
+            Hex closestHex = findClosestHexTo(mousePoint, 4.5f);
+            selectedHex = closestHex;
+            closestHex.isSelected = true;
+         }
+         break;
+      }
+         
+      case GameState.PlaceThiefDone:
+      {
+         
+         Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
+         foreach(Hex hex in hexes)
+         {
+            hex.isSelected = false;
+            hex.isThiefOnHex = false;
+         }
+         if(selectedHex != null)
+         {
+            selectedHex.isThiefOnHex = true; 
+         }
+         break;
+      }
+         
+      
       }
    }
 
@@ -285,6 +333,35 @@ public class GameManager : MonoBehaviour
          return closestSettlement;
     }
 
+    public Hex findClosestHexTo(Vector3 point, float minThreshold = float.PositiveInfinity) 
+    {
+
+         Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
+        
+         float minDistance = 10000;
+         Hex closestHex = null;
+
+         foreach(Hex hex in hexes)
+         {
+            hex.isSelected = false;
+            // only click valid hexes
+            if(hex.resource == Resource.Brick || 
+            hex.resource == Resource.Wood || 
+            hex.resource == Resource.Wheat || 
+            hex.resource == Resource.Rock || 
+            hex.resource == Resource.Sheep)
+            {
+               float distance = Vector3.Distance(hex.transform.position, point);
+               if (distance < minDistance && distance < minThreshold)
+               {
+                  minDistance = distance;
+                  closestHex = hex;
+               }
+            }
+         }
+         return closestHex;
+    }
+
     public Road findClosestRoadTo(Vector3 point, float minThreshold = float.PositiveInfinity) 
     {
          Road[] roads = FindObjectsOfType(typeof(Road)) as Road[];
@@ -307,7 +384,15 @@ public class GameManager : MonoBehaviour
 
     public void OnRollButtonClicked()
     {
-        rollResults = Dice.RollDice();
-        gameState = GameState.ResourceRollDone;
+       switch(gameState)
+       {
+          case GameState.ResourceRoll:
+            rollResults = Dice.RollDice();
+            gameState = GameState.ResourceRollDone;
+          break;
+          case GameState.PlaceThief:
+            gameState = GameState.PlaceThiefDone;
+          break;
+       }
     }
 }

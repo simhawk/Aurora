@@ -9,6 +9,7 @@ public class Settlement : MonoBehaviour
     private CivType civType;
     private bool isUpgraded; 
     private bool isPlaced;
+    public ParticleSystem puff;
 
     [SerializeField]
     private float maxSelfAdjacencyDistance = 4f;
@@ -24,6 +25,7 @@ public class Settlement : MonoBehaviour
 
     public void placeSettlementWithActiveCiv(bool isUpgraded)
     {
+        puff.Play();
         this.isUpgraded = isUpgraded;
         civType = GameManager.Instance.activePlayer.civType;
         ReplaceSettlement();
@@ -32,6 +34,7 @@ public class Settlement : MonoBehaviour
 
     public void placeSettlementWithRandomCiv(bool isUpgraded)
     {
+        puff.Play();
         this.isUpgraded = isUpgraded;
         System.Array civilizations = CivType.GetValues(typeof(CivType));
         CivType randomCiv = (CivType)civilizations.GetValue(random.Next(0,civilizations.Length));

@@ -7,6 +7,7 @@ public class Road : MonoBehaviour
 
     private CivType civType;
     GameObject road;
+    public ParticleSystem puff;
 
     private bool isPlaced = false;
 
@@ -101,6 +102,8 @@ public class Road : MonoBehaviour
 
     public void placeRoadWithActiveCiv()
     {
+        puff.Play();
+        
         this.isPlaced = true;
         civType = GameManager.Instance.activePlayer.civType;
         MeshRenderer mesh = gameObject.GetComponentInChildren<MeshRenderer>();
