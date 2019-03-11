@@ -8,13 +8,17 @@ public class Settlement : MonoBehaviour
     private static System.Random random = new System.Random();
     private CivType civType;
     private bool isUpgraded; 
+    private bool isPlaced;
+
+    [SerializeField]
+    private float maxSelfAdjacencyDistance = 4f;
 
     GameObject settlement; // This object holds the mesh for displaying the settlement game piece
 
     // Start is called before the first frame update
     void Start()
     {
-        civType = CivType.Noble;
+        isPlaced = false;
         isUpgraded = false;
     }
 
@@ -23,6 +27,7 @@ public class Settlement : MonoBehaviour
         this.isUpgraded = isUpgraded;
         civType = GameManager.Instance.activePlayer.civType;
         ReplaceSettlement();
+        MakeBaseVisible();
     }
 
     public void placeSettlementWithRandomCiv(bool isUpgraded)
@@ -32,9 +37,18 @@ public class Settlement : MonoBehaviour
         CivType randomCiv = (CivType)civilizations.GetValue(random.Next(0,civilizations.Length));
         this.civType = randomCiv;
         ReplaceSettlement();
+        MakeBaseVisible();
+    }
+
+    public bool IsPlaced()
+    {
+        return isPlaced;
     }
 
      private void ReplaceSettlement() {
+        
+        isPlaced = true;
+
         // destroy any existing mesh that is there (if upgrading for instance)
         Destroy(settlement);
         settlement = null;
@@ -70,4 +84,94 @@ public class Settlement : MonoBehaviour
         settlement.transform.rotation = this.transform.rotation;
     }
 
+    public List<Settlement> GetAdjacentSettlements()
+    {
+        Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+        List<Settlement> adjacents = new List<Settlement>();
+        foreach(Settlement settlement in settlements)
+        {
+            float distance = Vector3.Distance(transform.position, settlement.transform.position);
+        
+            if (distance < maxSelfAdjacencyDistance)
+            {
+                adjacents.Add(settlement);
+            }
+        }    
+        return adjacents;
+    }
+
+    public CivType GetCivType()
+    {
+        return this.civType;
+    }
+
+    // Current settlement is placable if there are no active adjacent settlements
+    public bool isPlaceable()
+    {
+        List<Settlement> adjacents = GetAdjacentSettlements();
+        foreach(Settlement settlement in adjacents)
+        {
+           if(settlement.IsPlaced() == true)
+           {
+               return false;
+           }
+        }   
+        return true; 
+    }
+
+    // public bool isAdjacentTo(Settlemenet settlement)
+    // {
+    //     List<Settlement> adjacents = this.GetAdjacentSettlements();
+    //     return adjacents.Contains(settlement);
+    // }
+
+   
+    
+    private void MakeBaseVisible()
+    {
+        foreach(Transform child in transform)
+        {
+            if(child.tag == "Base")
+            {
+                MeshRenderer meshComponent = child.GetComponent<MeshRenderer>();
+                meshComponent.enabled = true;
+            }
+        }   
+    }
+
+
+/****Debug *****/
+ public static float[] GetMinMaxAvgDistancesToAllSettlements()
+    {
+        float minDistance = 10000;
+        float maxDistance = 0;
+        float totalDistance = 0;
+        int count = 0;
+        Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+        
+        foreach(Settlement settlement1 in settlements) 
+        {
+            foreach(Settlement settlement2 in settlements)
+            {
+                if(settlement1 == settlement2) continue;
+
+                float distance = Vector3.Distance(settlement1.transform.position, settlement2.transform.position);
+            
+                if (distance < minDistance )
+                {
+                    minDistance = distance;
+                }
+
+                if (distance > maxDistance )
+                {
+                    maxDistance = distance;
+                }
+
+                totalDistance += distance; 
+                count++;
+            }    
+         }
+         return new float[3] {minDistance, maxDistance, totalDistance/count};
+    }
+  
 }

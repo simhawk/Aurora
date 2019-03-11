@@ -7,4 +7,7 @@ public class Player : MonoBehaviour
         public float orientation;
         public CivType civType;
         public string DisplayName;
+        public Dice dice;
+        [SerializeField]
+        public int hex;
 }

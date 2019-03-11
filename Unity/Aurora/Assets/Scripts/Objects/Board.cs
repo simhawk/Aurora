@@ -54,18 +54,16 @@ public class Board : MonoBehaviour
             Hex hex = hexes[i];
             
             if(hex == null) {
-                Debug.Log("found null inbetween end");
+           //     Debug.Log("found null inbetween end");
                 continue;
             }
-
-
 
             HexKey key = new HexKey(hex.x, hex.y, hex.z);
             if(hexHashMap.ContainsKey(key)) {
-                Debug.Log("Hex Hash Map already contains key: ("+x + ", " + y + ", " + z + ")");
+            //   Debug.Log("Hex Hash Map already contains key: ("+x + ", " + y + ", " + z + ")");
                 continue;
             }
-            Debug.Log("Added hex key: ("+x + ", " + y + ", " + z + ") to hex hash map");
+            //Debug.Log("Added hex key: ("+x + ", " + y + ", " + z + ") to hex hash map");
             hexHashMap.Add(key, hex);
 
         }
@@ -120,35 +118,4 @@ public class Board : MonoBehaviour
         // Position used for the cube.
         position = new Vector3(0.0f, 0.0f, 0.0f);
     }
-
-
-    void Update()
-    {
-
-        // //Update touch
-        // Touch touch = Input.GetTouch(0);
-
-        // // Move the cube if the screen has the finger moving.
-        // if (touch.phase == TouchPhase.Moved)
-        // {
-        //     Vector2 pos = touch.position;
-        //     pos.x = (pos.x - width) / width;
-        //     pos.y = (pos.y - height) / height;
-        //     position = new Vector3(-pos.x, pos.y, 0.0f);
-
-        //     Debug.Log("x: " + pos.x);
-        //     // Position the cube.
-        //     // transform.position = position;
-        // }
-
-        //Input.getmouseBuytton() 0left, 1right, 2wheel)
-
-        if(Input.GetMouseButtonUp(0))
-        {
-            
-            //Create a ray from the Mouse click position
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        }
-    }
-
 }

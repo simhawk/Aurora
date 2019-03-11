@@ -23,12 +23,12 @@ public class HelpingText : MonoBehaviour
         switch(gameState)
         {
             case GameState.InitialSettlementPlacement:
-                
-                txt.text = activePlayer.name + ", pick a settlement location.";
-            break;
+                txt.text = activePlayer.name + ", pick a settlement location."; break;
             case GameState.InitialRoadPlacement:
-                txt.text = activePlayer.name + " now pick an adjacent road location.";
-            break;
+                txt.text = activePlayer.name + " now pick an adjacent road location."; break;
+            case GameState.ResourceRoll:
+                txt.text = activePlayer.name + ", it is your turn to roll the dice!"; break;
+            
             default:
             break;
         }
