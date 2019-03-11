@@ -105,6 +105,11 @@ public class Settlement : MonoBehaviour
         return this.civType;
     }
 
+    public bool IsUpgraded()
+    {
+        return this.isUpgraded;
+    }
+
     // Current settlement is placable if there are no active adjacent settlements
     public bool isPlaceable()
     {

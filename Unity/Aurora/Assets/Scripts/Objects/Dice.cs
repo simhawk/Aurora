@@ -1,18 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiceSpawner : MonoBehaviour
+public class Dice : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private static System.Random random = new System.Random();
+    
+    public static Tuple<int, int, int> RollDice()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        int firstDie = random.Next(1,6);        
+        int secondDie = random.Next(1,6);
+        return new Tuple<int, int, int>(firstDie+secondDie, firstDie, secondDie);
     }
 }

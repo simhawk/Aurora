@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,17 @@ public class GameManager : MonoBehaviour
    private void Initialize()
    {
       gameState = GameState.InitialSettlementPlacement;
+
+      startingResources = new List<Resource>() 
+      {
+         Resource.Wood, Resource.Wood, Resource.Wood, Resource.Wood,
+         Resource.Wheat, Resource.Wheat, Resource.Wheat, Resource.Wheat,
+         Resource.Sheep, Resource.Sheep, Resource.Sheep, Resource.Sheep,
+         Resource.Rock, Resource.Rock, Resource.Rock, 
+         Resource.Brick, Resource.Brick, Resource.Brick,
+      };
+      startingNumbers = new List<int>() {2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12};
+      selectingBackward = false;
    }
     /******************************
        Game State Properties
@@ -34,7 +46,9 @@ public class GameManager : MonoBehaviour
     public Plane boardPlane;
     public float objectDistanceThreshold;
 
-    private bool selectingBackward = false;
+    public Tuple<int, int, int> rollResults; 
+
+    private bool selectingBackward;
 
     /******************************
        Static Game Properties
@@ -44,16 +58,9 @@ public class GameManager : MonoBehaviour
 
    // This game is different from Catan, and since it's board is flattened, a desert would be devastating to be near, as such the desert has been removed
    // Since this is the case, a board with 18 hexes (1 less than the normal 19 hex board) still has the same roll numbers.
-    public List<Resource> startingResources = new List<Resource>() 
-    {
-        Resource.Wood, Resource.Wood, Resource.Wood, Resource.Wood,
-        Resource.Wheat, Resource.Wheat, Resource.Wheat, Resource.Wheat,
-        Resource.Sheep, Resource.Sheep, Resource.Sheep, Resource.Sheep,
-        Resource.Rock, Resource.Rock, Resource.Rock, 
-        Resource.Brick, Resource.Brick, Resource.Brick,
-    };
+    public List<Resource> startingResources;
 
-    public List<int> startingNumbers =new List<int>() {2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12};
+    public List<int> startingNumbers; 
 
     /******************************
        Instance Game Properties
@@ -125,8 +132,67 @@ public class GameManager : MonoBehaviour
          }
       break;
 
-      case GameState.ResourceRoll;l
+      case GameState.ResourceRoll:
+         // Wait for the player to click on the dice roll! don't really have to 
+         // do too much here unless you want cool animations as soon as they roll the dice
+      break;
+
+      case GameState.ResourceRollDone:
+         Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
+         foreach(Hex hex in hexes)
+         {
+            if(hex.getNumber() != rollResults.Item1 ) {
+               continue;
+            }
+
+            Resource hexResource = hex.resource;
+
+            List<Settlement> settlements = hex.GetAdjacentSettlements();
+            foreach(Settlement settlement in settlements)
+            {
+               if(!settlement.IsPlaced())
+               {
+                  continue;
+               }
+               CivType civType = settlement.GetCivType();
+               int numberToAdd = settlement.IsUpgraded() ? 2 : 1;
+               getPlayerWithCiv(civType).addToResourceBank(hexResource, numberToAdd);
+            }
+         }
+
+          printResourcesForPlayer(0);
+          printResourcesForPlayer(1);
+          printResourcesForPlayer(2);
+          printResourcesForPlayer(3);
+
+         gameState = GameState.MainMenu;
+      break;
       }
+   }
+
+   public void printResourcesForPlayer(int player)
+   {
+      Debug.Log("Player one has: " + 
+         players[player].resources[Resource.Brick] + " Brick, " + 
+         players[player].resources[Resource.Wood] + " Wood, " + 
+         players[player].resources[Resource.Sheep] + " Sheep, " + 
+         players[player].resources[Resource.Rock] + " Rock, " + 
+         players[player].resources[Resource.Wheat] + " Wheat!");
+   }
+
+   public Player getPlayerWithCiv(CivType civType)
+   {
+      foreach(Player p in players)
+      {
+         if(p.civType == civType) return p;
+      }
+      Debug.Log("Error, could not find the player with civType:" + civType.ToString());
+      return players[0];
+   }
+
+   public void GivePlayersResources()
+   {
+
    }
 
    public List<Settlement> GetPlacedSettlements()
@@ -199,11 +265,6 @@ public class GameManager : MonoBehaviour
       return hit.point;
     }
 
-   //  public bool canInstantiateThisSettlement(Settlement settlement)
-   //  {
-
-   //  }
-
     public Settlement findClosestSettlementTo(Vector3 point, float minThreshold = float.PositiveInfinity) 
     {
          Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
@@ -242,5 +303,11 @@ public class GameManager : MonoBehaviour
              
          }
          return closestRoad;
+    }
+
+    public void OnRollButtonClicked()
+    {
+        rollResults = Dice.RollDice();
+        gameState = GameState.ResourceRollDone;
     }
 }

@@ -28,7 +28,8 @@ public class HelpingText : MonoBehaviour
                 txt.text = activePlayer.name + " now pick an adjacent road location."; break;
             case GameState.ResourceRoll:
                 txt.text = activePlayer.name + ", it is your turn to roll the dice!"; break;
-            
+            case GameState.ResourceRollDone:
+                txt.text = activePlayer.name + ", You rolled a " + GameManager.Instance.rollResults.Item1 + "! Collect your resources!";  break;
             default:
             break;
         }
