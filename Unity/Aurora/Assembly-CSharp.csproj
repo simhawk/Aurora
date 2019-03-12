@@ -99,6 +99,8 @@
      <Compile Include="Assets\Scripts\Animations\MoveAroundPoint.cs" />
      <Compile Include="Assets\Scripts\Animations\Pulsing.cs" />
      <Compile Include="Assets\Scripts\Animations\rotate.cs" />
+     <Compile Include="Assets\Scripts\Animations\RotateToPlayer.cs" />
+     <Compile Include="Assets\Scripts\Animations\SlideUpDown.cs" />
      <Compile Include="Assets\Scripts\Animations\updown.cs" />
      <Compile Include="Assets\Scripts\Control\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\Control\InputController.cs" />
@@ -116,12 +118,12 @@
      <Compile Include="Assets\Scripts\Objects\Road.cs" />
      <Compile Include="Assets\Scripts\Objects\Settlement.cs" />
      <Compile Include="Assets\Scripts\UI\HelpingText.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
      <Compile Include="Assets\Scripts\UI\UserInterface.cs" />
      <Compile Include="Assets\Scripts\Util\Extensions.cs" />
      <Compile Include="Assets\Scripts\Util\GoInvisible.cs" />
      <Compile Include="Assets\Scripts\Util\HexKey.cs" />
      <Compile Include="Assets\Scripts\Util\RotateToBoardTransform.cs" />
-     <Compile Include="Assets\SlideUpDown.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />

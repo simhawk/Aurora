@@ -40,6 +40,6 @@ public class HelpingText : MonoBehaviour
             break;
         }
 
-        txt.SetText(text);
+        txt.SetText("GameState = " + GameManager.Instance.gameState.ToString() + System.Environment.NewLine + text);
     }
 }

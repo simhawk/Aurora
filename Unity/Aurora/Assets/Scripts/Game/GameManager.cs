@@ -396,17 +396,4 @@ public class GameManager : MonoBehaviour
          return closestRoad;
     }
 
-    public void OnRollButtonClicked()
-    {
-       switch(gameState)
-       {
-          case GameState.ResourceRoll:
-            rollResults = Dice.RollDice();
-            gameState = GameState.ResourceRollDone;
-          break;
-          case GameState.PlaceThief:
-            gameState = GameState.PlaceThiefDone;
-          break;
-       }
-    }
 }
