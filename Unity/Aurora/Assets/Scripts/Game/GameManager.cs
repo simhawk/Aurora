@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance { get; private set;}
-    
+    public bool usingBoard = true;
+
     void Awake()
     {
         if(Instance == null) 
@@ -149,6 +150,7 @@ public class GameManager : MonoBehaviour
          if(this.rollResults.Item1 == 7)
          {
             gameState = GameState.PlaceThief;
+            break;
          }
 
          Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];

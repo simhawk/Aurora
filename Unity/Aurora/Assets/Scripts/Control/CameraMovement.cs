@@ -40,7 +40,7 @@ public class CameraMovement : MonoBehaviour
         }
 
         // rotate camera on right mouse button down
-        if(Input.GetMouseButton(1)) 
+        if(Input.GetMouseButton(2)) 
         {
             yaw += rotationSpeed * Input.GetAxis("Mouse X");
             pitch -= rotationSpeed * Input.GetAxis("Mouse Y");
