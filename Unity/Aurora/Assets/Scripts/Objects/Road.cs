@@ -10,6 +10,7 @@ public class Road : MonoBehaviour
     public ParticleSystem puff;
 
     private bool isPlaced = false;
+    public bool isSelected = false;
 
     [SerializeField]
     private float maxSettlementAdjacencyDistance = 2.5f;
@@ -25,7 +26,14 @@ public class Road : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        MeshRenderer[] meshRenderers = transform.GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer mesh in meshRenderers) 
+        {
+            if(mesh.transform.tag.Equals("Selector"))
+            {
+                mesh.enabled = isSelected;
+            }
+        }
     }
 
    public List<Settlement> GetAdjacentSettlements()

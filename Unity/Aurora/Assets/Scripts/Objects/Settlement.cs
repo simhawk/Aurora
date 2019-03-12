@@ -10,6 +10,7 @@ public class Settlement : MonoBehaviour
     private bool isUpgraded; 
     private bool isPlaced;
     public ParticleSystem puff;
+    public bool isSelected = false;
 
     [SerializeField]
     private float maxSelfAdjacencyDistance = 4f;
@@ -21,6 +22,21 @@ public class Settlement : MonoBehaviour
     {
         isPlaced = false;
         isUpgraded = false;
+    }
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        MeshRenderer[] meshRenderers = transform.GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer mesh in meshRenderers) 
+        {
+            if(mesh.transform.tag.Equals("Selector"))
+            {
+                mesh.enabled = isSelected;
+            }
+        }
     }
 
     public void placeSettlementWithActiveCiv(bool isUpgraded)
@@ -125,15 +141,7 @@ public class Settlement : MonoBehaviour
            }
         }   
         return true; 
-    }
-
-    // public bool isAdjacentTo(Settlemenet settlement)
-    // {
-    //     List<Settlement> adjacents = this.GetAdjacentSettlements();
-    //     return adjacents.Contains(settlement);
-    // }
-
-   
+    }   
     
     private void MakeBaseVisible()
     {

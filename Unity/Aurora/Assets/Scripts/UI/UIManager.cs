@@ -77,59 +77,114 @@ public class UIManager : MonoBehaviour
       else // if this ui manager is for the active player, check the state to determine which button to show 
       {
          GameState state= GameManager.Instance.gameState;
+         
+         // Set them all off by default
+         ButtonFinished.SetActive(false);
+         ButtonRoll.SetActive(false);
+         ButtonCancel.SetActive(false);
+         ButtonConfirm.SetActive(false);
+
          switch(GameManager.Instance.gameState)
          {
             
-            case GameState.InitialRoadPlacement:
-                  ButtonFinished.SetActive(false);
-                  ButtonRoll.SetActive(false);
-                  ButtonCancel.SetActive(false);
-                  ButtonConfirm.SetActive(false);
+            // maybe add confirm buttons here
+            case GameState.InitialSettlementPlacement:   
+            break;
+
+            case GameState.InitialRoadPlacement:   
             break;
 
             case GameState.ResourceRoll:
-                  ButtonFinished.SetActive(false);
                   ButtonRoll.SetActive(true);
-                  ButtonCancel.SetActive(false);
-                  ButtonConfirm.SetActive(false);
             break;
 
             case GameState.ResourceRollDone:
             break;
 
             case GameState.PlaceThief:
+                  ButtonConfirm.SetActive(true);
+            break;
+
+            case GameState.PlaceThiefDone:
+            break;
+
+            case GameState.Trading:
+
+            break;
+
+            case GameState.BuildOrDevelopmentCard:
+                  if(GameManager.Instance.isSomethingSelected())
+                  {
+                     ButtonCancel.SetActive(true);
+                     ButtonConfirm.SetActive(true);
+                  } 
+                  else
+                  {
+                     ButtonFinished.SetActive(true);
+                  }
+            break;
+
+            case GameState.BuildingSelected:
+               
+                  ButtonCancel.SetActive(true);
+                  ButtonConfirm.SetActive(true);
             break;
          }
       }
-      
    }
-
 
    public void OnRoadClick()
    {
-       
+      GameState state = GameManager.Instance.gameState;
+       if(state.Equals(GameState.BuildOrDevelopmentCard))
+       {
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.buildType = BuildType.Road;
+       }
    }
 
    public void OnSettlementClick()
    {
-
+      GameState state = GameManager.Instance.gameState;
+      if(state.Equals(GameState.BuildOrDevelopmentCard))
+       {
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.buildType = BuildType.Settlement;
+       }
    }
 
    public void OnCityClick()
    {
-
+      GameState state = GameManager.Instance.gameState;
+      if(state.Equals(GameState.BuildOrDevelopmentCard))
+       {
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.buildType = BuildType.City;
+       }
    }
 
    public void OnDevCardClick()
    {
-
+      GameState state = GameManager.Instance.gameState;
+      if(state.Equals(GameState.BuildOrDevelopmentCard))
+       {
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.buildType = BuildType.DevCard;
+       }
    }
 
    public void OnFinishedClick()
    {
-
+      GameState state = GameManager.Instance.gameState;
+      if(state.Equals(GameState.BuildOrDevelopmentCard))
+       {
+          GameManager.Instance.buildType = BuildType.NotSelected;
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.SetNextActivePlayer();
+          GameManager.Instance.gameState = GameState.ResourceRoll;
+       }
    }
-   
+
    public void OnRollClick()
    {
       // as soon as it's clicked set the value of the roll results
@@ -139,11 +194,29 @@ public class UIManager : MonoBehaviour
 
    public void OnConfirmClick()
    {
-      GameManager.Instance.gameState = GameState.PlaceThiefDone;
+      GameState state = GameManager.Instance.gameState;
+     
+      if(state.Equals(GameState.PlaceThief))
+      {
+         GameManager.Instance.gameState = GameState.PlaceThiefDone;
+      }
+      else if(state.Equals(GameState.BuildOrDevelopmentCard))
+      {
+         //BUILD THE DAMN THING HERE
+         GameManager.Instance.BuildSelectedItem();
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.buildType = BuildType.NotSelected;
+      }
    }
 
    public void OnCancelClick()
    {
-
+      // when building 1 and change to road / settlement, do the same for confirm
+      GameState state = GameManager.Instance.gameState;
+      if(state.Equals(GameState.BuildOrDevelopmentCard))
+      {
+          GameManager.Instance.deselectAll();
+          GameManager.Instance.buildType = BuildType.NotSelected;
+      }
    }
 }

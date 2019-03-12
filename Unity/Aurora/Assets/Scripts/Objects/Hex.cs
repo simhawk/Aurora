@@ -10,7 +10,6 @@ public class Hex : MonoBehaviour
     public Resource resource;
     private static System.Random random = new System.Random();
     private NumberHolder numberHolder;
-    public bool selected = false;
 
     public bool isThiefOnHex = false;
 

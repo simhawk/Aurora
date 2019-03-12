@@ -96,6 +96,7 @@
      <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_MeshUtility.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Util.cs" />
      <Compile Include="Assets\ProCore\Polybrush\Code\Scripts\Utility\z_Vector.cs" />
+     <Compile Include="Assets\pulsingWithWeirdScale.cs" />
      <Compile Include="Assets\Scripts\Animations\MoveAroundPoint.cs" />
      <Compile Include="Assets\Scripts\Animations\Pulsing.cs" />
      <Compile Include="Assets\Scripts\Animations\rotate.cs" />
@@ -105,6 +106,7 @@
      <Compile Include="Assets\Scripts\Control\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\Control\InputController.cs" />
      <Compile Include="Assets\Scripts\Enums\BoardMode.cs" />
+     <Compile Include="Assets\Scripts\Enums\BuildType.cs" />
      <Compile Include="Assets\Scripts\Enums\CivType.cs" />
      <Compile Include="Assets\Scripts\Enums\PieceSetup.cs" />
      <Compile Include="Assets\Scripts\Enums\Resource.cs" />

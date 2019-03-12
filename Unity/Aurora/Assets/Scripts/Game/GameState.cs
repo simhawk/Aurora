@@ -12,5 +12,6 @@ public enum GameState
     PlaceThiefDone, // finished placing the thief, actually do stuff
     Trading, // Prompt user to trade with anybody confirm trade or decline with UI buttons 
     BuildOrDevelopmentCard, // Ask user to build or not user may also play a development card if they have them (Check win conditions, if no winner go to resource roll and switch active player)
+    BuildingSelected,
     Victory
 }

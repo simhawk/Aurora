@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
       };
       startingNumbers = new List<int>() {2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12};
       selectingBackward = false;
+      buildType = BuildType.NotSelected;
    }
     /******************************
        Game State Properties
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     public Tuple<int, int, int> rollResults; 
 
     private bool selectingBackward;
+    public BuildType buildType;
 
     /******************************
        Static Game Properties
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
       {
          if(Input.GetMouseButtonUp(0))
          {
-            Settlement closestSettlement = findClosestSettlementTo(mousePoint, objectDistanceThreshold);
+            Settlement closestSettlement = findClosestSettlementToAndDeselectAll(mousePoint, objectDistanceThreshold);
             if(closestSettlement != null && closestSettlement.isPlaceable())
             {
                closestSettlement.placeSettlementWithActiveCiv(false);
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
       {
          if(Input.GetMouseButtonUp(0))
          {
-            Road closestRoad = findClosestRoadTo(mousePoint, objectDistanceThreshold);
+            Road closestRoad = findClosestRoadToAndDeselectAll(mousePoint, objectDistanceThreshold);
             if(closestRoad != null && closestRoad.isPlaceable())
             {
                closestRoad.placeRoadWithActiveCiv();
@@ -195,6 +197,39 @@ public class GameManager : MonoBehaviour
 
       case GameState.BuildOrDevelopmentCard:
       {
+         if(Input.GetMouseButtonUp(0) && buildType != BuildType.NotSelected)
+         {
+            if(buildType == BuildType.Road)
+            {
+               Road closestRoad  = findClosestRoadToAndDeselectAll(mousePoint,objectDistanceThreshold);
+               if(closestRoad != null && closestRoad.isPlaceable())
+               {
+                  closestRoad.isSelected = true;
+               }
+            }
+            else if(buildType == BuildType.City)
+            {
+               Settlement closestSettlement  = findClosestSettlementToAndDeselectAll(mousePoint,objectDistanceThreshold);
+               if(closestSettlement != null && !closestSettlement.IsUpgraded() && closestSettlement.IsPlaced())
+               {
+                  closestSettlement.isSelected = true;
+               }
+            }
+            else if(buildType == BuildType.Settlement)
+            {
+               Settlement closestSettlement  = findClosestSettlementToAndDeselectAll(mousePoint,objectDistanceThreshold);
+               if(closestSettlement != null && closestSettlement.isPlaceable())
+               {
+                  closestSettlement.isSelected = true;
+               }
+            }
+            
+         }
+         break;
+      }
+
+      case GameState.BuildingSelected:
+      {
          // TODO: do stuff for Build or Development
          break;
       }
@@ -205,9 +240,10 @@ public class GameManager : MonoBehaviour
       {
          if(Input.GetMouseButtonUp(0))
          {
-            Hex closestHex = findClosestHexTo(mousePoint, 4.5f);
+            Hex closestHex = findClosestHexToAndDeselectAll(mousePoint, 4.5f);
             selectedHex = closestHex;
-            closestHex.isSelected = true;
+            if(closestHex != null)
+               closestHex.isSelected = true;
          }
          break;
       }
@@ -225,11 +261,105 @@ public class GameManager : MonoBehaviour
          {
             selectedHex.isThiefOnHex = true; 
          }
+         
+         gameState = GameState.Trading;
          break;
       }
-         
-      
+
       }
+   }
+
+   public void BuildSelectedItem()
+   {
+       if(buildType == BuildType.Road)
+      {
+         Road[] roads = FindObjectsOfType(typeof(Road)) as Road[];
+         foreach(Road road in roads)
+         {
+            if(road.isSelected)
+            {
+               road.placeRoadWithActiveCiv();
+               return;
+            }
+         }
+      }
+      else if(buildType == BuildType.City)
+      {
+         Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+         foreach(Settlement settlement in settlements)
+         {
+            if(settlement.isSelected)
+            {
+               settlement.placeSettlementWithActiveCiv(true);
+            }
+         }
+      }
+      else if(buildType == BuildType.Settlement)
+      {
+         Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+         foreach(Settlement settlement in settlements)
+         {
+            if(settlement.isSelected)
+            {
+               settlement.placeSettlementWithActiveCiv(false);
+            }
+         }
+      }
+   }
+
+   public void deselectAll()
+   {
+      Road[] roads = FindObjectsOfType(typeof(Road)) as Road[];
+         
+      foreach(Road road in roads)
+      {
+         road.isSelected = false;
+      }
+
+      Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+      
+      foreach(Settlement settlement in settlements)
+      {
+         settlement.isSelected = false;
+      }
+   }
+
+   public bool isSomethingSelected()
+   {
+      if(buildType == BuildType.Road)
+      {
+         Road[] roads = FindObjectsOfType(typeof(Road)) as Road[];
+         foreach(Road road in roads)
+         {
+            if(road.isSelected)
+            {
+               return true;
+            }
+         }
+      }
+      else if(buildType == BuildType.City)
+      {
+         Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+         foreach(Settlement settlement in settlements)
+         {
+            if(settlement.isSelected)
+            {
+               return true;
+            }
+         }
+      }
+      else if(buildType == BuildType.Settlement)
+      {
+         Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+         foreach(Settlement settlement in settlements)
+         {
+            if(settlement.isSelected)
+            {
+               return true;
+            }
+         }
+      }
+      return false;
    }
 
    public void printResourcesForPlayer(int player)
@@ -250,11 +380,6 @@ public class GameManager : MonoBehaviour
       }
       Debug.Log("Error, could not find the player with civType:" + civType.ToString());
       return players[0];
-   }
-
-   public void GivePlayersResources()
-   {
-
    }
 
    public List<Settlement> GetPlacedSettlements()
@@ -327,7 +452,7 @@ public class GameManager : MonoBehaviour
       return hit.point;
     }
 
-    public Settlement findClosestSettlementTo(Vector3 point, float minThreshold = float.PositiveInfinity) 
+    public Settlement findClosestSettlementToAndDeselectAll(Vector3 point, float minThreshold = float.PositiveInfinity) 
     {
          Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
         
@@ -336,6 +461,7 @@ public class GameManager : MonoBehaviour
 
          foreach(Settlement settlement in settlements)
          {
+            settlement.isSelected = false;
            float distance = Vector3.Distance(settlement.transform.position, point);
             if (distance < minDistance && distance < minThreshold)
             {
@@ -347,7 +473,7 @@ public class GameManager : MonoBehaviour
          return closestSettlement;
     }
 
-    public Hex findClosestHexTo(Vector3 point, float minThreshold = float.PositiveInfinity) 
+    public Hex findClosestHexToAndDeselectAll(Vector3 point, float minThreshold = float.PositiveInfinity) 
     {
 
          Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
@@ -376,15 +502,17 @@ public class GameManager : MonoBehaviour
          return closestHex;
     }
 
-    public Road findClosestRoadTo(Vector3 point, float minThreshold = float.PositiveInfinity) 
+    public Road findClosestRoadToAndDeselectAll(Vector3 point, float minThreshold = float.PositiveInfinity) 
     {
          Road[] roads = FindObjectsOfType(typeof(Road)) as Road[];
         
+         
          float minDistance = 10000;
          Road closestRoad = null;
 
          foreach(Road road in roads)
          {
+            road.isSelected = false;
            float distance = Vector3.Distance(road.transform.position, point);
             if (distance < minDistance && distance < minThreshold)
             {
