@@ -20,33 +20,33 @@ public class UserInterface : MonoBehaviour
 
     void Update()
     {
-       GameState state = GameManager.Instance.gameState;
-       Text ButtonText = buttonObj.GetComponentInChildren<Text>();
-       switch(state)
-       {
-           case GameState.InitialSettlementPlacement:
-           case GameState.InitialRoadPlacement:
-                DisableUIElement(buttonObj);
-                EnableUIElement(helpingTextObj);
-           break;
+       //GameState state = GameManager.Instance.gameState;
+       //Text ButtonText = buttonObj.GetComponentInChildren<Text>();
+       //switch(state)
+       //{
+       //    case GameState.InitialSettlementPlacement:
+       //    case GameState.InitialRoadPlacement:
+       //         DisableUIElement(buttonObj);
+       //         EnableUIElement(helpingTextObj);
+       //    break;
 
-           case GameState.ResourceRoll:
-                ButtonText.text = "Roll";
-                EnableUIElement(buttonObj);
-                EnableUIElement(helpingTextObj);
-           break;
+       //    case GameState.ResourceRoll:
+       //         ButtonText.text = "Roll";
+       //         EnableUIElement(buttonObj);
+       //         EnableUIElement(helpingTextObj);
+       //    break;
 
-           case GameState.ResourceRollDone:
-                DisableUIElement(buttonObj);
-                EnableUIElement(helpingTextObj);
-           break;
+       //    case GameState.ResourceRollDone:
+       //         DisableUIElement(buttonObj);
+       //         EnableUIElement(helpingTextObj);
+       //    break;
 
-            case GameState.PlaceThief:
-                ButtonText.text = "Confirm";
-                EnableUIElement(buttonObj);
-                EnableUIElement(helpingTextObj);
-           break;
-       }
+       //     case GameState.PlaceThief:
+       //         ButtonText.text = "Confirm";
+       //         EnableUIElement(buttonObj);
+       //         EnableUIElement(helpingTextObj);
+       //    break;
+       //}
     }    
 
     private void DisableUIElement(GameObject element)
