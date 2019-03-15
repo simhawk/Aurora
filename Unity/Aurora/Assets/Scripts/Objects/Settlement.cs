@@ -12,6 +12,8 @@ public class Settlement : MonoBehaviour
     public ParticleSystem puff;
     public bool isSelected = false;
 
+
+
     [SerializeField]
     private float maxSelfAdjacencyDistance = 4f;
 

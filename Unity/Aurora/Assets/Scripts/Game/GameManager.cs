@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set;}
     public bool usingBoard = true;
+   public GameObject RollPanel; 
+   public GameObject rollPanelNumber;
+   public GameObject rollpanelSubtext;
+   public float rollpanelDelay;
+
 
     void Awake()
     {
@@ -38,6 +44,8 @@ public class GameManager : MonoBehaviour
       startingNumbers = new List<int>() {2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12};
       selectingBackward = false;
       buildType = BuildType.NotSelected;
+
+
    }
     /******************************
        Game State Properties
@@ -149,8 +157,19 @@ public class GameManager : MonoBehaviour
 
       case GameState.ResourceRollDone:
       {
+
+         // Show UI for rolling the number
+         RollPanel.SetActive(true);
+         TextMeshProUGUI number = rollPanelNumber.GetComponent<TextMeshProUGUI>();
+         number.text = this.rollResults.Item1.ToString();
+         TextMeshProUGUI subtext = rollpanelSubtext.GetComponent<TextMeshProUGUI>();
+         subtext.text = this.rollResults.Item1 == 7 ? "Place the knight or" : "Collect your Resources!";
+         
+         
+
          if(this.rollResults.Item1 == 7)
          {
+            Invoke("HideRollPanel", rollpanelDelay);
             gameState = GameState.PlaceThief;
             break;
          }
@@ -271,6 +290,8 @@ public class GameManager : MonoBehaviour
 
    public void BuildSelectedItem()
    {
+      // Selected roads or settlements are already valid
+      // i.e. roads aren't already built and are connected, and settlements aren't adjacent
        if(buildType == BuildType.Road)
       {
          Road[] roads = FindObjectsOfType(typeof(Road)) as Road[];
@@ -278,8 +299,19 @@ public class GameManager : MonoBehaviour
          {
             if(road.isSelected)
             {
-               road.placeRoadWithActiveCiv();
-               return;
+               //check if they have the required resources
+               if(activePlayer.resources[Resource.Brick] >= 1
+                  && activePlayer.resources[Resource.Wood] >= 1)
+               {
+                  // place the road
+                  road.placeRoadWithActiveCiv();
+                  
+                  //decrement their resource counters
+                  activePlayer.resources[Resource.Brick]--;
+                  activePlayer.resources[Resource.Wood]--;
+                  return;
+               }
+               
             }
          }
       }
@@ -288,9 +320,21 @@ public class GameManager : MonoBehaviour
          Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
          foreach(Settlement settlement in settlements)
          {
-            if(settlement.isSelected)
+            // ensure that the settlement to be upgraded is selected, and is of the same type
+            if(settlement.isSelected && settlement.GetCivType().Equals(activePlayer.civType))
             {
-               settlement.placeSettlementWithActiveCiv(true);
+               // check if they have the required resouces
+               if(activePlayer.resources[Resource.Rock] >= 3
+                  && activePlayer.resources[Resource.Wheat] >= 2)
+               {
+                  // replace settlement with city
+                  settlement.placeSettlementWithActiveCiv(true);
+                  // dectrement resource counters;
+                  activePlayer.resources[Resource.Rock] -= 3;
+                  activePlayer.resources[Resource.Wheat] -= 2;
+
+                  return;
+               }
             }
          }
       }
@@ -301,7 +345,23 @@ public class GameManager : MonoBehaviour
          {
             if(settlement.isSelected)
             {
-               settlement.placeSettlementWithActiveCiv(false);
+               if(activePlayer.resources[Resource.Wheat] >= 1
+                  && activePlayer.resources[Resource.Sheep] >= 1
+                  && activePlayer.resources[Resource.Brick] >= 1
+                  && activePlayer.resources[Resource.Wood] >= 1)
+               {
+
+                  // place settlement if they have the resources
+                  settlement.placeSettlementWithActiveCiv(false);
+
+                  // decrement the resource counter
+                  activePlayer.resources[Resource.Wheat]--;
+                  activePlayer.resources[Resource.Sheep]--;
+                  activePlayer.resources[Resource.Brick]--;
+                  activePlayer.resources[Resource.Wood]--;
+
+                  return;
+               }
             }
          }
       }
@@ -522,6 +582,11 @@ public class GameManager : MonoBehaviour
              
          }
          return closestRoad;
+    }
+
+    public void HideRollPanel()
+    {
+       RollPanel.SetActive(false);
     }
 
 }

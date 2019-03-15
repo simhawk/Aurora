@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
    public GameObject ButtonRoll;
    public GameObject ButtonConfirm;
    public GameObject ButtonCancel;
+   
 
    public 
 
@@ -176,8 +177,12 @@ public class UIManager : MonoBehaviour
    public void OnFinishedClick()
    {
       GameState state = GameManager.Instance.gameState;
+
       if(state.Equals(GameState.BuildOrDevelopmentCard))
        {
+          // disable the roll panel
+          GameManager.Instance.RollPanel.SetActive(false);
+
           GameManager.Instance.buildType = BuildType.NotSelected;
           GameManager.Instance.deselectAll();
           GameManager.Instance.SetNextActivePlayer();

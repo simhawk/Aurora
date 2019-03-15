@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
         public Dictionary<Resource, int> resources = new Dictionary<Resource, int> ();
 
+        public 
+
         /// <summary>
         /// Start is called on the frame when a script is enabled just before
         /// any of the Update methods is called the first time.
@@ -40,5 +42,22 @@ public class Player : MonoBehaviour
                 || resource == Resource.Wheat 
                 || resource == Resource.Rock 
                 || resource == Resource.Sheep;
+        }
+
+        public int CalculateVictoryPoints()
+        {
+                Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
+                int victoryPointCount = 0;
+                foreach(Settlement settlement in settlements)
+                {
+                        if(settlement.GetCivType().Equals(this.civType))
+                        {
+                                victoryPointCount += settlement.IsUpgraded() ? 2 : 1;
+                        }  
+                }       
+
+                // TODO: count development cards as well;
+                // TODO: count knights, longest road
+                return victoryPointCount;
         }
 }

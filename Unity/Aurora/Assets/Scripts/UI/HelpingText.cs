@@ -9,6 +9,7 @@ public class HelpingText : MonoBehaviour
 
     TextMeshProUGUI txt;
     
+    public static string AdditionalText = "";
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +34,8 @@ public class HelpingText : MonoBehaviour
                 text = activePlayer.name + ", it is your turn to roll the dice!"; break;
             case GameState.ResourceRollDone:
                 text = activePlayer.name + ", You rolled a " + GameManager.Instance.rollResults.Item1 + "! Collect your resources!";  break;
+            case GameState.BuildOrDevelopmentCard:
+                text =  "You rolled a " + GameManager.Instance.rollResults.Item1 + "Build?"; break;
             case GameState.PlaceThief:
                 text = "You rolled a 7! " + activePlayer.name + " place the thief on any tile to disable it!" ; break;
             default:
@@ -40,6 +43,6 @@ public class HelpingText : MonoBehaviour
             break;
         }
 
-        txt.SetText("GameState = " + GameManager.Instance.gameState.ToString() + System.Environment.NewLine + text);
+        txt.SetText("GameState = " + GameManager.Instance.gameState.ToString() + System.Environment.NewLine + text + string.Concat(System.Environment.NewLine,AdditionalText));
     }
 }

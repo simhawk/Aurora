@@ -9,8 +9,8 @@ public class Dice : MonoBehaviour
     
     public static Tuple<int, int, int> RollDice()
     {
-        int firstDie = random.Next(1,6);        
-        int secondDie = random.Next(1,6);
+        int firstDie = random.Next(1,7);        
+        int secondDie = random.Next(1,7);
         return new Tuple<int, int, int>(firstDie+secondDie, firstDie, secondDie);
     }
 }
