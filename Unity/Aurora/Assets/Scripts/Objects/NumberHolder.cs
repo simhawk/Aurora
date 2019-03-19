@@ -8,19 +8,12 @@ public class NumberHolder : MonoBehaviour
     public Color ScarceColor;
     public Color CommonColor;
 
-    public int rollNumber;
+    
+    private int rollNumber;
     private static System.Random random = new System.Random();  
     
-    /// <summary>
-    /// Called when the script is loaded or a value is changed in the
-    /// inspector (Called in the editor only).
-    /// </summary>
-    void OnValidate()
-    {
-        setupText();
-    }
 
-    private void setupText()
+    public void setupText()
     {
         // Get Resource Number child object
         TextMesh ResourceNumberTextMesh = gameObject.transform.GetChild(0).GetComponent<TextMesh>();
@@ -62,6 +55,10 @@ public class NumberHolder : MonoBehaviour
             DotTextMesh.color = textColor;
         }
     }
+    public int getRollNumber()
+    {
+        return rollNumber;
+    }
 
     private static int getRandomRollNumber()
     {
@@ -99,6 +96,11 @@ public class NumberHolder : MonoBehaviour
         setupText();
     }
 
+    public void setRollNumber(int n)
+    {
+      //  rollNumber = n;
+    }
+    
     // Update is called once per frame
     void Update()
     {

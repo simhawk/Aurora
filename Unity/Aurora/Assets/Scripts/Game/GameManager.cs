@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
    public GameObject rollpanelSubtext;
    public float rollpanelDelay;
 
+   public bool placingThief = false;
+   public bool placingRobin = false;
+
 
     void Awake()
     {
@@ -88,8 +91,12 @@ public class GameManager : MonoBehaviour
 
    private void StateMachine()
    {
+      if(Input.GetMouseButtonUp(0))
+      {
+         HideRollPanel();
+      }
       Vector3 mousePoint = getMousePointOnPlane();
-
+      Debug.Log(mousePoint.ToString());
       // StateMachine
       switch(gameState) { 
       case GameState.InitialSettlementPlacement:
@@ -163,7 +170,7 @@ public class GameManager : MonoBehaviour
          TextMeshProUGUI number = rollPanelNumber.GetComponent<TextMeshProUGUI>();
          number.text = this.rollResults.Item1.ToString();
          TextMeshProUGUI subtext = rollpanelSubtext.GetComponent<TextMeshProUGUI>();
-         subtext.text = this.rollResults.Item1 == 7 ? "Place the knight or" : "Collect your Resources!";
+         subtext.text = this.rollResults.Item1 == 7 ? "Place the Thief or Terra" : "Collect your Resources!";
          
          
 
@@ -257,12 +264,42 @@ public class GameManager : MonoBehaviour
 
       case GameState.PlaceThief:
       {
-         if(Input.GetMouseButtonUp(0))
+         if(InputController.DetectedThief())
          {
-            Hex closestHex = findClosestHexToAndDeselectAll(mousePoint, 4.5f);
-            selectedHex = closestHex;
-            if(closestHex != null)
-               closestHex.isSelected = true;
+            Vector3 thiefPoint = getThiefPointOnPlane();
+            Hex closestHex = findClosestHexToAndDeselectAll(thiefPoint, 4.0f);
+            
+            if(closestHex != null && !closestHex.isThiefOnHex)
+            {
+               selectedHex = closestHex;
+               closestHex.isSelectedThief = true;
+               HelpingText.AdditionalText = HelpingText.AdditionalText + "Detected Thief";
+               placingThief = true;
+            }else {
+               placingThief = false;
+            }
+            placingRobin  = false;
+         } else if(InputController.DetectedRobinHood())
+         {
+             Vector3 robinLocation = getRobinHoodPointOnPlane();
+             Hex closestHex = findClosestHexToAndDeselectAll(robinLocation, 4.0f);
+             
+             if(closestHex != null && !closestHex.isRobinOnHex)
+             {
+                selectedHex = closestHex;
+               closestHex.isSelectedRobin = true;
+               HelpingText.AdditionalText = HelpingText.AdditionalText + "Detected Robin";
+               placingRobin  = true;
+             } else {
+               placingRobin  = false;
+             }
+             placingThief = false;
+         }
+         else 
+         {
+            HelpingText.AdditionalText = HelpingText.AdditionalText + "not detected";
+            placingThief = false;
+            placingRobin  = false;
          }
          break;
       }
@@ -271,15 +308,49 @@ public class GameManager : MonoBehaviour
       {
          
          Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
-         foreach(Hex hex in hexes)
+
+         // reset thief
+         if(placingThief)
          {
-            hex.isSelected = false;
-            hex.isThiefOnHex = false;
-         }
-         if(selectedHex != null)
+            foreach(Hex hex in hexes)
+            {
+               hex.isSelectedThief = false;
+               hex.isThiefOnHex = false;
+            }
+            if(selectedHex != null)
+            {
+               selectedHex.isThiefOnHex = true; 
+            }
+         } else if(placingRobin)
          {
-            selectedHex.isThiefOnHex = true; 
-         }
+           foreach(Hex hex in hexes)
+            {
+               hex.isSelectedRobin = false;
+               hex.isRobinOnHex = false;
+            }
+            if(selectedHex != null)
+            {
+               selectedHex.isRobinOnHex = true; 
+               //reset old robin if there
+               List<Hex> adj = selectedHex.GetAdjacentHexes();
+               foreach(Hex hex in hexes)
+               {
+                  //put all non adjacent hexes back to normal
+                  if(!adj.Contains(hex))
+                  {
+                     hex.resource = hex.originalResource;
+                     hex.displayedResource = hex.originalResource;
+                  }
+               }
+
+               // update adjacent hexes with their displayed value
+               foreach(Hex hex in adj) 
+               {
+                  hex.resource = hex.displayedResource;
+                  hex.InstantiateHexWith(hex.resource);
+               }
+            }
+        }
          
          gameState = GameState.Trading;
          break;
@@ -512,6 +583,26 @@ public class GameManager : MonoBehaviour
       return hit.point;
     }
 
+    public Vector3 getRobinHoodPointOnPlane()
+    {
+      int layer_mask = LayerMask.GetMask("BoardPlane");
+       Vector2 robinPos = InputController.getRobinHoodPosition();
+       Ray ray = Camera.main.ScreenPointToRay(robinPos);
+       RaycastHit hit;
+       Physics.Raycast(ray, out hit, layer_mask);
+       return hit.point;
+    }
+
+   public Vector3 getThiefPointOnPlane()
+      {
+         int layer_mask = LayerMask.GetMask("BoardPlane");
+         Vector2 thiefPos = InputController.getThiefPosition();
+         Ray ray = Camera.main.ScreenPointToRay(thiefPos);
+         RaycastHit hit;
+         Physics.Raycast(ray, out hit, layer_mask);
+         return hit.point;
+      }
+
     public Settlement findClosestSettlementToAndDeselectAll(Vector3 point, float minThreshold = float.PositiveInfinity) 
     {
          Settlement[] settlements = FindObjectsOfType(typeof(Settlement)) as Settlement[];
@@ -543,7 +634,8 @@ public class GameManager : MonoBehaviour
 
          foreach(Hex hex in hexes)
          {
-            hex.isSelected = false;
+            hex.isSelectedRobin = false;
+            hex.isSelectedThief = false;
             // only click valid hexes
             if(hex.resource == Resource.Brick || 
             hex.resource == Resource.Wood || 

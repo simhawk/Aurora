@@ -16,28 +16,28 @@ public class InputController : MonoBehaviour
     public float distanceForThief;
     public float margin;
 
-    private bool detectedRobinHood = false;
-    private bool detectedThief = false;
+    private static bool detectedRobinHood = false;
+    private static bool detectedThief = false;
 
-    private Vector2 thiefPosition;
-    private Vector2 robinHoodPosition;
+    private static Vector2 thiefPosition;
+    private static Vector2 robinHoodPosition;
 
-    public Vector2 getThiefPosition()
+    public static Vector2 getThiefPosition()
     {
         return thiefPosition;
     }
      
-    public Vector2 getRobinHoodPosition()
+    public static Vector2 getRobinHoodPosition()
     {
         return robinHoodPosition;
     }
 
-    public bool DetectedRobinHood()
+    public static bool DetectedRobinHood()
     {
         return detectedRobinHood;
     }
 
-    public bool DetectedThief()
+    public static bool DetectedThief()
     {
         return detectedThief;
     }
@@ -103,6 +103,8 @@ public class InputController : MonoBehaviour
                 if(a.Equals(b)) continue;
 
                 float distance = distanceBetween(a,b);
+
+                HelpingText.AdditionalText = HelpingText.AdditionalText + " " + distance.ToString();
 
                 // code for detecting robin hood
                 if(Mathf.Abs(distance - distanceForRobinHood) < margin)

@@ -10,6 +10,7 @@ public class HelpingText : MonoBehaviour
     TextMeshProUGUI txt;
     
     public static string AdditionalText = "";
+    bool Debuging = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,22 +28,29 @@ public class HelpingText : MonoBehaviour
         switch(gameState)
         {
             case GameState.InitialSettlementPlacement:
-                text = activePlayer.name + ", pick a settlement location."; break;
+                text = activePlayer.DisplayName + ", pick a settlement location."; break;
             case GameState.InitialRoadPlacement:
-                text = activePlayer.name + " now pick an adjacent road location."; break;
+                text = activePlayer.DisplayName + " now pick an adjacent road location."; break;
             case GameState.ResourceRoll:
-                text = activePlayer.name + ", it is your turn to roll the dice!"; break;
+                text = activePlayer.DisplayName + ", it is your turn to roll the dice!"; break;
             case GameState.ResourceRollDone:
-                text = activePlayer.name + ", You rolled a " + GameManager.Instance.rollResults.Item1 + "! Collect your resources!";  break;
+                text = activePlayer.DisplayName + ", You rolled a " + GameManager.Instance.rollResults.Item1 + "! Collect your resources!";  break;
             case GameState.BuildOrDevelopmentCard:
                 text =  "You rolled a " + GameManager.Instance.rollResults.Item1 + "Build?"; break;
             case GameState.PlaceThief:
-                text = "You rolled a 7! " + activePlayer.name + " place the thief on any tile to disable it!" ; break;
+                text = "You rolled a 7! " + activePlayer.DisplayName + " place the thief on any tile to disable it!" ; break;
             default:
                 text = "";
             break;
         }
 
-        txt.SetText("GameState = " + GameManager.Instance.gameState.ToString() + System.Environment.NewLine + text + string.Concat(System.Environment.NewLine,AdditionalText));
-    }
+if(Debuging)
+{
+    txt.SetText("GameState = " + GameManager.Instance.gameState.ToString() + System.Environment.NewLine + text + string.Concat(System.Environment.NewLine,AdditionalText));
+   
+}else {
+txt.SetText(text);
+   
+}
+     }
 }

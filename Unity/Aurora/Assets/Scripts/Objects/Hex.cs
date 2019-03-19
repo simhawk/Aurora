@@ -6,18 +6,29 @@ using UnityEngine;
 
 public class Hex : MonoBehaviour
 {
-    public bool isSelected = false;
+    public bool isSelectedThief = false;
+    public bool isSelectedRobin = false;
+    public bool wasSelectedRobin = false;
     public Resource resource;
     private static System.Random random = new System.Random();
     private NumberHolder numberHolder;
 
     public bool isThiefOnHex = false;
+    public bool isRobinOnHex = false;
 
+
+    public Resource displayedResource;
+    public Resource originalResource;
+
+    public float maxHexAdjacencyDistance = 7f;
 
     [SerializeField]
     public int x, y, z;
 
     public float maxSettlementAdjacencyDistance = 3.5f;
+
+    GameObject hex;
+    public NumberHolder myNumberHolder;
 
     // The q, r, and s axes of the Hex indicate the cubic positions of the Hex itself
     // The coordinate invariant is q+r+s=0
@@ -38,6 +49,8 @@ public class Hex : MonoBehaviour
             break;
         }
         InstantiateHexWith(resource);
+        displayedResource = resource;
+        originalResource = resource;
     }
 
     /// <summary>
@@ -51,13 +64,36 @@ public class Hex : MonoBehaviour
         {
             if(mesh.transform.tag.Equals("Selector"))
             {
-                mesh.enabled = isSelected;
+                mesh.enabled = isSelectedThief || isSelectedRobin;
             }
             if(mesh.transform.tag.Equals("Thief"))
             {
                 mesh.enabled = isThiefOnHex;
             }
         }
+
+        if(!wasSelectedRobin && isSelectedRobin)
+        {
+            Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
+            List<Hex> adjacents = GetAdjacentHexes();
+
+            foreach(Hex hex in hexes) {
+                if(!hex.resource.Equals(displayedResource))
+                {
+                    hex.InstantiateHexWith(hex.resource);
+                    hex.displayedResource = hex.resource;
+                }
+            }
+
+            foreach(Hex hex in adjacents)
+            {
+                Resource rand = Hex.getRandomResource();
+                hex.InstantiateHexWith(rand);
+                displayedResource = rand;
+            }
+        }
+
+        wasSelectedRobin = isSelectedRobin;
 
     }
     
@@ -75,13 +111,15 @@ public class Hex : MonoBehaviour
                 minDistance = distance;
             }
         }
-        return minNumberHolder.rollNumber;
+        myNumberHolder = minNumberHolder;
+        return minNumberHolder.getRollNumber();
     }
+
 
     private static Resource getRandomResource()
     {
         System.Array resources = Resource.GetValues(typeof(Resource));
-        Resource randomResource = (Resource)resources.GetValue(random.Next(0,resources.Length-1));
+        Resource randomResource = (Resource)resources.GetValue(random.Next(0,resources.Length-3));
         return randomResource;
     }
 
@@ -94,8 +132,9 @@ public class Hex : MonoBehaviour
         return randomResourceFromList;
     }
 
-    private void InstantiateHexWith(Resource resource) {
-        GameObject hex;
+    public void InstantiateHexWith(Resource resource) {
+       
+        Destroy(hex);
         switch(resource)
         {
             case Resource.Brick: hex = Instantiate(Resources.Load("Prefabs/BrickHex")) as GameObject; break;
@@ -120,6 +159,22 @@ public class Hex : MonoBehaviour
             if (distance < maxSettlementAdjacencyDistance)
             {
                 adjacents.Add(settlement);
+            }
+        }    
+        return adjacents;
+    }
+
+    public List<Hex> GetAdjacentHexes()
+    {
+        Hex[] hexes = FindObjectsOfType(typeof(Hex)) as Hex[];
+        List<Hex> adjacents = new List<Hex>();
+        foreach(Hex hex in hexes)
+        {
+            float distance = Vector3.Distance(transform.position, hex.transform.position);
+            if (distance < maxHexAdjacencyDistance)
+            {
+                if(hex.resource == Resource.Brick  || hex.resource == Resource.Rock || hex.resource == Resource.Sheep || hex.resource == Resource.Wheat || hex.resource == Resource.Wood)
+                    adjacents.Add(hex);
             }
         }    
         return adjacents;
